@@ -1,6 +1,5 @@
 import {
   type SimpleIcon,
-  siAdonisjs,
   siContabo,
   siCss,
   siDocker,
@@ -32,6 +31,7 @@ import {
   siTypeorm,
   siTypescript,
   siVercel,
+  siRedbull,
 } from "simple-icons";
 import { awsIcon } from "./aws-icon";
 
@@ -45,7 +45,6 @@ const byName: Record<string, Pick<SimpleIcon, "hex" | "path">> = {
   "Node.js": siNodedotjs,
   NestJS: siNestjs,
   Fastify: siFastify,
-  AdonisJS: siAdonisjs,
   FastAPI: siFastapi,
   "Express.js": siExpress,
   Prisma: siPrisma,
@@ -71,6 +70,9 @@ const byName: Record<string, Pick<SimpleIcon, "hex" | "path">> = {
   "Scikit-Learn": siScikitlearn,
   Contabo: siContabo,
   AWS: awsIcon,
+  "AWS Bedrock": awsIcon,
+  pgvector: siPostgresql,
+  BullMQ: siRedbull,
 };
 
 /** Relative luminance of a hex color, 0 (black) to 1 (white). */

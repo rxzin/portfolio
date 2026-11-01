@@ -32,7 +32,7 @@ export default function Contact() {
           className={`${button} border border-ink hover:bg-ink hover:text-panel`}
         >
           <Icon name="file" />
-          Download résumé
+          Résumé
         </ResumeLink>
       </div>
     </Section>

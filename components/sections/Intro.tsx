@@ -26,7 +26,7 @@ function Row({
       <span className="grid h-7 w-7 shrink-0 place-items-center border border-rule bg-panel text-ink-muted">
         <Icon name={icon} className="h-3.5 w-3.5" />
       </span>
-      <span className="min-w-0 [overflow-wrap:anywhere]">{children}</span>
+      <span className="min-w-0 wrap:anywhere">{children}</span>
     </li>
   );
 }
@@ -42,7 +42,7 @@ export default function Intro() {
       <Cover />
       {/* the dot-matrix mark overlaps the cover like a profile header */}
       <div className="rule-b flex items-end gap-5 px-5 pb-6 sm:px-6">
-        <span className="relative z-[2] -mt-10 grid shrink-0 place-items-center border border-rule bg-panel p-3 shadow-[0_0_0_6px_var(--bg)] sm:-mt-12">
+        <span className="relative z-2 -mt-10 grid shrink-0 place-items-center border border-rule bg-panel p-3 shadow-[0_0_0_6px_var(--bg)] sm:-mt-12">
           <HeroMark />
         </span>
         <div className="min-w-0 pt-4">
@@ -99,7 +99,7 @@ export default function Intro() {
               download={RESUME_DOWNLOAD_NAME}
               className={linkClass}
             >
-              Download résumé (PDF)
+              Résumé
             </a>
           </Row>
         )}

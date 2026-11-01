@@ -122,7 +122,7 @@ export const site = {
     {
       title: "Retrieval and search",
       description:
-        "RAG pipelines with hierarchical chunking and reranked, cited answers, plus image search on pgvector.",
+        "RAG pipelines with hierarchical chunking and reranked, cited answers, plus image search.",
     },
     {
       title: "Multi-tenant SaaS backends",
@@ -132,7 +132,7 @@ export const site = {
     {
       title: "Workflows that survive crashes",
       description:
-        "Durable Temporal workflows, two-phase reservations with row locks, and crash-recovery reconciliation so nothing runs twice.",
+        "Durable Temporal workflows, two-phase reservations with row locks, and crash-recovery reconciliation.",
     },
   ] satisfies Service[],
 
@@ -149,7 +149,6 @@ export const site = {
         "TypeScript",
         "NestJS",
         "Fastify",
-        "AdonisJS",
         "Prisma",
         "PostgreSQL",
         "Temporal.io",
@@ -241,7 +240,7 @@ export const site = {
         "Conversation-scoped **RAG**: hierarchical chunking, local ONNX BGE embeddings on CPU, Pinecone multi-tenant namespaces, and Cohere Rerank v3 for ranked, verified citations.",
         "**Auth from scratch**: OAuth2/JWT, refresh-token rotation, SHA-256 hashed token storage, multi-session device pruning, and admin RBAC.",
         "Human-in-the-loop **chat → Jira** workflow with row-level locks and atomic Redis rate limiting to prevent duplicate tickets. Voice I/O via the Web Speech API.",
-        "Multi-stage Docker images built with uv, deployed on **AWS** (EC2, RDS PostgreSQL, S3/CloudFront).",
+        "Multi-stage Docker images built with uv, deployed on **AWS** (EC2, RDS PostgreSQL, S3, CloudFront).",
       ],
     },
     {
@@ -269,7 +268,6 @@ export const site = {
         "Node.js",
         "NestJS",
         "Fastify",
-        "AdonisJS",
         "FastAPI",
         "Express.js",
         "Prisma",
