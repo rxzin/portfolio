@@ -23,7 +23,7 @@ export default function CopyEmail() {
       type="button"
       onClick={copy}
       aria-label={copied ? "Email copied" : "Copy email"}
-      className="inline-flex h-11 items-center border border-ink px-4 text-small font-semibold transition-colors hover:bg-ink hover:text-panel"
+      className="inline-flex h-12 items-center border border-ink px-5 text-label font-semibold uppercase transition-colors hover:bg-ink hover:text-bg"
     >
       <span
         className="relative inline-flex h-5 w-24 overflow-hidden"

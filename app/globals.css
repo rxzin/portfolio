@@ -1,145 +1,106 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
-/* dark: utilities follow the .dark class on <html> (set before paint by the script in layout.tsx) */
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* ============================================================
-   DESIGN TOKENS — three layers
+   VARIANT "newui": cinematic editorial longread, dark only.
+   DESIGN TOKENS: three layers
    1. Primitives : raw values (never used in components)
-   2. Semantic   : what a value *means* (bg, panel, ink, accent…)
+   2. Semantic   : what a value *means*
    3. Tailwind   : @theme exposes semantic tokens as utilities
-                   (bg-panel, text-ink-muted, border-rule, text-accent…)
    ============================================================ */
 
 :root {
   /* 1. primitives */
-  --fog-200: #e8ebee;
-  --fog-100: #f4f6f8;
-  --fog-400: #c5ccd4;
-  --slate-900: #18202c;
-  --slate-600: #566070;
-  --cobalt-600: #2f5bea;
-  --night-950: #0e1217;
-  --night-900: #151a21;
-  --night-700: #29313c;
-  --mist-100: #e4e8ee;
-  --mist-400: #95a0ae;
-  --cobalt-400: #7c9cff;
+  --black-950: #060606;
+  --white-100: #eeeeee;
+  --grey-500: #949292;
+  --electric-600: #1834e8;
+  --crimson-900: #630018;
+  --crimson-500: #d0243f;
 
-  /* 2. semantic (light) */
-  --bg: var(--fog-200);
-  --panel: var(--fog-100);
-  --rule: var(--fog-400);
-  --ink: var(--slate-900);
-  --ink-muted: var(--slate-600);
-  --accent: var(--cobalt-600);
-  /* dot-matrix loaders ("solid-theme" preset) read this; it follows --ink, so dark mode flips it too */
+  /* 2. semantic */
+  --bg: var(--black-950);
+  --ink: var(--white-100);
+  --ink-muted: var(--grey-500);
+  --rule: color-mix(in oklab, var(--white-100) 32%, transparent);
+  --glow: var(--electric-600); /* the big blurred blue light */
+  --blood: var(--crimson-900); /* splatter shapes and case-file boxes */
+  --blood-bright: var(--crimson-500); /* small accents, drifting packets */
+
+  /* dot-matrix mark (header) reads this */
   --color-dot-on: var(--ink);
-  color-scheme: light;
 
-  /* motion (mirrored in lib/motion.ts) */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* 2. semantic (dark): only layer 2 changes; components never know which theme is on */
-:root.dark {
-  --bg: var(--night-950);
-  --panel: var(--night-900);
-  --rule: var(--night-700);
-  --ink: var(--mist-100);
-  --ink-muted: var(--mist-400);
-  --accent: var(--cobalt-400);
   color-scheme: dark;
-}
-
-/* theme switch: the new theme grows as a circle from the toggle (see ThemeToggle.tsx) */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-panel: var(--panel);
-  --color-rule: var(--rule);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
-  --color-accent: var(--accent);
+  --color-rule: var(--rule);
+  --color-glow: var(--glow);
+  --color-blood: var(--blood);
+  --color-blood-bright: var(--blood-bright);
 
-  /* text in Instrument Sans; dates, durations and data in JetBrains Mono */
-  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 
   --ease-out-expo: var(--ease-out-expo);
 
-  /* type scale */
-  --text-meta: 0.8125rem;
-  --text-meta--line-height: 1.5;
-  --text-small: 0.875rem;
-  --text-small--line-height: 1.55;
-  --text-body: 1rem;
-  --text-body--line-height: 1.7;
-  --text-lead: 1.125rem;
-  --text-lead--line-height: 1.55;
-  --text-h2: clamp(1.375rem, 3vw, 1.625rem);
-  --text-h2--line-height: 1.25;
-  --text-h1: clamp(1.75rem, 5vw, 2.25rem);
-  --text-h1--line-height: 1.15;
-  --text-stat: clamp(1.75rem, 5vw, 2.25rem);
-  --text-stat--line-height: 1.1;
+  /* three sizes do almost everything, like the reference */
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.45;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.6;
+  --text-statement: clamp(1rem, 0.85rem + 0.55vw, 1.25rem);
+  --text-statement--line-height: 1.28;
+  /* 120px at 1440; floor 36px keeps the longest word ("PRODUCTION", ~6.1em) inside a 320px phone */
+  --text-display: clamp(2.25rem, 8.4vw, 7.5rem);
+  --text-display--line-height: 0.86;
+  --text-numeral: clamp(2rem, 4.5vw, 3.75rem);
+  --text-numeral--line-height: 1;
+
+  --animate-drift: drift var(--drift-duration, 26s) linear infinite;
 }
 
-/* Rules that run the full screen width at the top/bottom of an element, so the page reads as ruled
-   lines crossing one centered column. body clips horizontal overflow, so they never cause scrolling. */
-@utility rule-t {
-  position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    inset-inline: -100vw;
-    top: -1px;
-    height: 1px;
-    background: var(--rule);
-    pointer-events: none;
+/* fades in and out at the ends so the loop restart is never seen */
+@keyframes drift {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
   }
-}
-@utility rule-b {
-  position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    inset-inline: -100vw;
-    bottom: -1px;
-    height: 1px;
-    background: var(--rule);
-    pointer-events: none;
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--drift-distance, -60vw));
+    opacity: 0;
   }
 }
 
-/* Blueprint texture: diagonal hatching for the gaps between sections. */
-@utility bg-hatch {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    color-mix(in oklab, var(--rule) 70%, transparent) 0 1px,
-    transparent 1px 7px
+/* Headline lines that fade from solid to translucent toward the bottom (reference's signature). */
+@utility text-fade {
+  background: linear-gradient(
+    180deg,
+    var(--ink) 38%,
+    color-mix(in oklab, var(--ink) 20%, transparent) 100%
   );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* A small "+" centered on a point; place it with left/top and it marks where rules cross. */
-@utility cross {
+/* Small "+" marker. Position with left/top; it centers on that point. */
+@utility crosshair {
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 22px;
+  height: 22px;
   translate: -50% -50%;
   pointer-events: none;
   background:
-    linear-gradient(var(--ink-muted), var(--ink-muted)) center / 1px 100%
-    no-repeat,
-    linear-gradient(var(--ink-muted), var(--ink-muted)) center / 100% 1px
-    no-repeat;
-  z-index: 1;
+    linear-gradient(var(--rule), var(--rule)) center / 1px 100% no-repeat,
+    linear-gradient(var(--rule), var(--rule)) center / 100% 1px no-repeat;
 }
 
 /* ---------- base ---------- */
@@ -152,27 +113,19 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--text-body);
-  line-height: 1.7;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  background: var(--blood-bright);
+  color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* pointer-following glow; SpotlightCard sets --x / --y */
-.spotlight {
-  background: radial-gradient(
-    320px circle at var(--x, -999px) var(--y, -999px),
-    color-mix(in oklab, var(--accent) 7%, transparent),
-    transparent 65%
-  );
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {

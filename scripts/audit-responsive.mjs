@@ -175,6 +175,11 @@ async function main() {
 
     mkdirSync(OUT, { recursive: true });
     await send("Page.enable");
+    // Measure the layout at rest. Reduced motion makes scroll entrances snap to their final position,
+    // and a priming pass (below) scrolls the whole page first so every entrance has fired.
+    await send("Emulation.setEmulatedMedia", {
+      features: [{ name: "prefers-reduced-motion", value: "reduce" }],
+    });
 
     for (const [label, width, height, mobile] of VIEWPORTS) {
       await send("Emulation.setDeviceMetricsOverride", {
@@ -189,9 +194,16 @@ async function main() {
       const slug = label.split(" ")[0];
       await shot(`${slug}-top.png`);
 
-      // Check each screenful while scrolling down, so scroll-revealed content is visible when probed.
-      const problems = new Set();
+      // Priming pass: trigger every scroll entrance, so nothing is measured at its pre-entrance offset.
       const total = await js("document.documentElement.scrollHeight");
+      for (let y = 0; y < total; y += Math.round(height * 0.5)) {
+        await js(`scrollTo(0, ${y})`);
+        await sleep(120);
+      }
+      await sleep(600);
+
+      // Check each screenful while scrolling down.
+      const problems = new Set();
       for (let y = 0; y < total; y += Math.round(height * 0.8)) {
         await js(`scrollTo(0, ${y})`);
         await sleep(400);

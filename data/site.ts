@@ -55,6 +55,16 @@ export interface SkillGroup {
   items: string[];
 }
 
+/** One chapter of the longread. In headline lines, "|" splits a line into a left and a right half. */
+export interface Chapter {
+  label: string;
+  headline: string[];
+  /** the 18px uppercase line under the headline */
+  statement: string;
+  /** small grey line under the statement (hero only) */
+  note?: string;
+}
+
 export const site = {
   name: "Razin Chinwala",
   role: "Full-stack AI engineer",
@@ -79,7 +89,9 @@ export const site = {
 
   nav: [
     { label: "About", href: "#about" },
+    { label: "What I build", href: "#build" },
     { label: "Experience", href: "#experience" },
+    { label: "Internships", href: "#internships" },
     { label: "Projects", href: "#projects" },
     { label: "Stack", href: "#stack" },
     { label: "Contact", href: "#contact" },
@@ -333,6 +345,52 @@ export const site = {
     "TypeScript: From First Steps to Professional",
     "Professional CSS: Build a Website from Scratch",
   ],
+
+  // ---- variant "newui": chapter copy --------------------------------------------
+  story: {
+    hero: {
+      headline: ["Building AI", "that survives", "production"],
+      statement:
+        "Full-stack AI engineer building the backends and LLM agents behind multi-tenant SaaS, sales automation and RAG",
+      note: "Razin Chinwala, Ahmedabad. Currently building at Code Colonies.",
+    },
+    about: {
+      label: "About",
+      headline: ["From models", "to systems"],
+      statement:
+        "I moved from training models to shipping the systems that run them",
+    },
+    build: {
+      label: "What I build",
+      headline: ["What I|build"],
+      statement: "Four kinds of systems I get trusted with",
+    },
+    experience: {
+      label: "Experience",
+      headline: ["Shipping at", "Code Colonies"],
+      statement: "98 of the 113 database migrations behind WhatsAuto are mine",
+    },
+    internships: {
+      label: "Internships",
+      headline: ["Where it", "started"],
+      statement:
+        "Rooftops from satellite imagery, diagnoses from 257K rows of patient data",
+    },
+    projects: {
+      label: "Projects",
+      headline: ["Built on", "my own"],
+      statement:
+        "An agentic chatbot I designed, built and piloted with real users",
+    },
+    stack: {
+      label: "Stack",
+      headline: ["The tools|I trust"],
+      statement: "From the database up to the model",
+    },
+    finale: {
+      headline: ["Let's build", "something that", "won't break"],
+    },
+  } satisfies Record<string, Partial<Chapter> & { headline: string[] }>,
 
   contact: {
     heading: "Building something with LLMs that has to work in production?",

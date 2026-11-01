@@ -1,18 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import Providers from "@/components/motion/Providers";
 import { site } from "@/data/site";
 import "./globals.css";
 
-// Instrument Sans for reading; JetBrains Mono for dates, durations and other data.
-const sans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-});
-const mono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-});
+// One family, like the reference: Inter at display, statement and body sizes.
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 const title = `${site.name} | ${site.role}`;
 
@@ -42,14 +35,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#e8ebee" },
-    { media: "(prefers-color-scheme: dark)", color: "#0e1217" },
-  ],
+  themeColor: "#060606",
 };
-
-// Runs before first paint: saved choice, else the system setting. Prevents a light→dark flash.
-const themeScript = `(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}})()`;
 
 // Structured data so search engines understand who this page is about.
 const personSchema = {
@@ -72,16 +59,7 @@ const personSchema = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // suppressHydrationWarning: the theme script adds "dark" to this element before React hydrates
-    <html
-      lang="en"
-      className={`${sans.variable} ${mono.variable} antialiased`}
-      suppressHydrationWarning
-    >
-      <head>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static inline script we wrote; no user input */}
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="en" className={`${inter.variable} antialiased`}>
       <body>
         <script
           type="application/ld+json"

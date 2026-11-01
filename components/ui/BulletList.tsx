@@ -20,14 +20,21 @@ function Bullet({ text }: { text: string }) {
 }
 
 /** Shows the first few bullets; the rest expand behind "Show more". */
-export default function BulletList({ items }: { items: string[] }) {
+export default function BulletList({
+  items,
+  className = "text-ink-muted",
+}: {
+  items: string[];
+  /** text color; pass a lighter tone on crimson boxes for contrast */
+  className?: string;
+}) {
   const [open, setOpen] = useState(false);
   const moreId = useId();
   const first = items.slice(0, VISIBLE);
   const rest = items.slice(VISIBLE);
 
   return (
-    <div className="mt-4 text-ink-muted">
+    <div className={`mt-4 ${className}`}>
       <ul className="space-y-2">
         {first.map((b) => (
           <Bullet key={b} text={b} />
@@ -55,7 +62,7 @@ export default function BulletList({ items }: { items: string[] }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={moreId}
-            className="mt-2 py-2 font-mono text-meta text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink"
+            className="mt-2 py-2 text-label font-semibold uppercase text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink"
           >
             {open ? "Show less" : `Show ${rest.length} more`}
           </button>

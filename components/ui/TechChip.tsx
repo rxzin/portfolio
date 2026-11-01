@@ -4,7 +4,7 @@ import { techIcon } from "@/lib/tech-icons";
 export default function TechChip({ name }: { name: string }) {
   const icon = techIcon(name);
   return (
-    <li className="inline-flex items-center gap-1.5 border border-rule bg-panel px-2 py-1 font-mono text-[0.75rem] leading-none transition-colors hover:border-ink-muted">
+    <li className="inline-flex items-center gap-1.5 border border-rule bg-ink/[0.04] px-2.5 py-1.5 text-label font-medium leading-none text-ink/90 transition-colors hover:border-ink">
       {icon && (
         <svg
           aria-hidden="true"
