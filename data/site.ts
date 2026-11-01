@@ -134,7 +134,7 @@ export const site = {
     {
       title: "Retrieval and search",
       description:
-        "RAG pipelines with hierarchical chunking and reranked, cited answers, plus image search on pgvector.",
+        "RAG pipelines with hierarchical chunking and reranked, cited answers, plus image search.",
     },
     {
       title: "Multi-tenant SaaS backends",
@@ -161,7 +161,6 @@ export const site = {
         "TypeScript",
         "NestJS",
         "Fastify",
-        "AdonisJS",
         "Prisma",
         "PostgreSQL",
         "Temporal.io",
@@ -281,7 +280,6 @@ export const site = {
         "Node.js",
         "NestJS",
         "Fastify",
-        "AdonisJS",
         "FastAPI",
         "Express.js",
         "Prisma",

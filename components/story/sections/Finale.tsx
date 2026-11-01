@@ -171,17 +171,6 @@ export default function Finale() {
           className={`${container} flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-6 text-label text-ink-muted`}
         >
           <p>© 2026 {site.name}</p>
-          <p>
-            Photography via{" "}
-            <a
-              href="https://unsplash.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block py-1 underline decoration-rule underline-offset-4 hover:text-ink"
-            >
-              Unsplash
-            </a>
-          </p>
         </div>
       </div>
     </footer>
