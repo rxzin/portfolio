@@ -1,0 +1,187 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* dark: utilities follow the .dark class on <html> (set before paint by the script in layout.tsx) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   DESIGN TOKENS — three layers
+   1. Primitives : raw values (never used in components)
+   2. Semantic   : what a value *means* (bg, panel, ink, accent…)
+   3. Tailwind   : @theme exposes semantic tokens as utilities
+                   (bg-panel, text-ink-muted, border-rule, text-accent…)
+   ============================================================ */
+
+:root {
+  /* 1. primitives */
+  --fog-200: #e8ebee;
+  --fog-100: #f4f6f8;
+  --fog-400: #c5ccd4;
+  --slate-900: #18202c;
+  --slate-600: #566070;
+  --cobalt-600: #2f5bea;
+  --night-950: #0e1217;
+  --night-900: #151a21;
+  --night-700: #29313c;
+  --mist-100: #e4e8ee;
+  --mist-400: #95a0ae;
+  --cobalt-400: #7c9cff;
+
+  /* 2. semantic (light) */
+  --bg: var(--fog-200);
+  --panel: var(--fog-100);
+  --rule: var(--fog-400);
+  --ink: var(--slate-900);
+  --ink-muted: var(--slate-600);
+  --accent: var(--cobalt-600);
+  /* dot-matrix loaders ("solid-theme" preset) read this; it follows --ink, so dark mode flips it too */
+  --color-dot-on: var(--ink);
+  color-scheme: light;
+
+  /* motion (mirrored in lib/motion.ts) */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 2. semantic (dark): only layer 2 changes; components never know which theme is on */
+:root.dark {
+  --bg: var(--night-950);
+  --panel: var(--night-900);
+  --rule: var(--night-700);
+  --ink: var(--mist-100);
+  --ink-muted: var(--mist-400);
+  --accent: var(--cobalt-400);
+  color-scheme: dark;
+}
+
+/* theme switch: the new theme grows as a circle from the toggle (see ThemeToggle.tsx) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-rule: var(--rule);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+
+  /* text in Instrument Sans; dates, durations and data in JetBrains Mono */
+  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --ease-out-expo: var(--ease-out-expo);
+
+  /* type scale */
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.5;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.55;
+  --text-h2: clamp(1.375rem, 3vw, 1.625rem);
+  --text-h2--line-height: 1.25;
+  --text-h1: clamp(1.75rem, 5vw, 2.25rem);
+  --text-h1--line-height: 1.15;
+  --text-stat: clamp(1.75rem, 5vw, 2.25rem);
+  --text-stat--line-height: 1.1;
+}
+
+/* Rules that run the full screen width at the top/bottom of an element, so the page reads as ruled
+   lines crossing one centered column. body clips horizontal overflow, so they never cause scrolling. */
+@utility rule-t {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: -100vw;
+    top: -1px;
+    height: 1px;
+    background: var(--rule);
+    pointer-events: none;
+  }
+}
+@utility rule-b {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: -100vw;
+    bottom: -1px;
+    height: 1px;
+    background: var(--rule);
+    pointer-events: none;
+  }
+}
+
+/* Blueprint texture: diagonal hatching for the gaps between sections. */
+@utility bg-hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, var(--rule) 70%, transparent) 0 1px,
+    transparent 1px 7px
+  );
+}
+
+/* A small "+" centered on a point; place it with left/top and it marks where rules cross. */
+@utility cross {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  translate: -50% -50%;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--ink-muted), var(--ink-muted)) center / 1px 100%
+    no-repeat,
+    linear-gradient(var(--ink-muted), var(--ink-muted)) center / 100% 1px
+    no-repeat;
+  z-index: 1;
+}
+
+/* ---------- base ---------- */
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* pointer-following glow; SpotlightCard sets --x / --y */
+.spotlight {
+  background: radial-gradient(
+    320px circle at var(--x, -999px) var(--y, -999px),
+    color-mix(in oklab, var(--accent) 7%, transparent),
+    transparent 65%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
