@@ -1,6 +1,6 @@
 import { site } from "@/data/site";
 
-/** The row of chapter names (hero top and footer), like the reference's nav. From xl (1280px):
+/** The row of chapter names (hero top), like the reference's nav. From xl (1280px):
  * narrower, seven links crowd the name, so the menu button takes over. */
 export default function ChapterLinks({
   className = "",

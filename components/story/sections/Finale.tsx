@@ -5,7 +5,6 @@ import Parallax from "@/components/motion/Parallax";
 import Art from "@/components/story/Art";
 import { Cross, Glow, Packets } from "@/components/story/Atmosphere";
 import { container } from "@/components/story/Chapter";
-import ChapterLinks from "@/components/story/ChapterLinks";
 import Display from "@/components/story/Display";
 import CopyEmail from "@/components/ui/CopyEmail";
 import Icon, { type IconName } from "@/components/ui/Icon";
@@ -51,15 +50,14 @@ export default function Finale() {
       <Glow className="-right-[20vmax] -top-[10vmax] h-[70vmax] w-[70vmax]" />
       <Packets
         seed={89}
-        count={12}
+        count={20}
         shark={false}
-        className="left-0 top-[16%] hidden h-[16%] w-[45%] lg:block"
+        className="inset-x-0 top-24 hidden h-[28rem] lg:block"
       />
 
       <div className={`relative ${container}`}>
-        {/* nav row + back to top */}
+        {/* back to top */}
         <div className="flex items-center justify-between gap-8">
-          <ChapterLinks className="w-full max-w-[52rem]" />
           <a
             href="#top"
             className="ml-auto grid h-12 w-12 shrink-0 place-items-center border border-rule transition-colors hover:border-ink"
