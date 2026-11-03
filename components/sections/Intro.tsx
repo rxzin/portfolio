@@ -70,7 +70,7 @@ export default function Intro() {
       </div>
 
       <ul
-        className={`flex flex-wrap items-center gap-x-5 gap-y-1 bg-bg/75 py-2.5 font-mono text-meta backdrop-blur-md ${edge}`}
+        className={`flex flex-wrap items-center gap-x-5 gap-y-1 bg-bg/75 py-2.5 font-mono text-meta backdrop-blur-md pointer-coarse:bg-bg/90 pointer-coarse:backdrop-blur-none ${edge}`}
       >
         <Fact icon="briefcase">Building AI products at {site.company}</Fact>
         <Fact icon="pin">{site.location}</Fact>

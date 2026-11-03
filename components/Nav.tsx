@@ -12,34 +12,32 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { site } from "@/data/site";
 import { dur, ease, spring } from "@/lib/motion";
 
-/** The id of whichever section is currently mid-screen. */
+/**
+ * The furthest section down the page that has reached the top half of the screen.
+ * Works from where sections are, not from one crossing a line, so a fast scroll can't skip a short one.
+ */
 function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
+    const inTopHalf = new Set<string>();
     const io = new IntersectionObserver(
       (entries) => {
-        for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
+        for (const e of entries) {
+          if (e.isIntersecting) inTopHalf.add(e.target.id);
+          else inTopHalf.delete(e.target.id);
+        }
+        // none in view (a stretch without a nav link): keep the last one highlighted
+        const last = ids.filter((id) => inTopHalf.has(id)).at(-1);
+        if (last) setActive(last);
       },
-      { rootMargin: "-45% 0px -50% 0px" },
+      { rootMargin: "0px 0px -50% 0px" },
     );
     for (const id of ids) {
       const el = document.getElementById(id);
       if (el) io.observe(el);
     }
-
-    // the last section can be too short to ever reach mid-screen, so the page's end counts as reaching it
-    const onScroll = () => {
-      const { scrollHeight } = document.documentElement;
-      if (window.innerHeight + window.scrollY >= scrollHeight - 2)
-        setActive(ids[ids.length - 1]);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
+    return () => io.disconnect();
   }, [ids]);
 
   return active;
@@ -92,14 +90,16 @@ export default function Nav() {
       onFocusCapture={() => setHidden(false)}
       // overflow-x-clip: fixed elements escape body clipping, so the full-width rule must be clipped here
       className={`fixed inset-x-0 top-0 z-50 overflow-x-clip px-3 transition-colors duration-500 ease-out-expo sm:px-4 ${
-        plain ? "bg-bg/75 backdrop-blur-md" : ""
+        plain
+          ? "bg-bg/75 backdrop-blur-md pointer-coarse:bg-bg/90 pointer-coarse:backdrop-blur-none"
+          : ""
       }`}
     >
       <div
         className={`mx-auto border-x transition-[max-width,background-color,border-color] duration-500 ease-out-expo ${
           plain
             ? "max-w-[100vw] border-transparent"
-            : "rule-b max-w-[46rem] border-rule bg-bg/85 backdrop-blur-md"
+            : "rule-b max-w-[46rem] border-rule bg-bg/85 backdrop-blur-md pointer-coarse:bg-bg/95 pointer-coarse:backdrop-blur-none"
         }`}
       >
         <nav
