@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Appear from "@/components/motion/Appear";
 import Magnetic from "@/components/motion/Magnetic";
 import Parallax from "@/components/motion/Parallax";
@@ -6,7 +7,6 @@ import { Cross, Glow, Packets } from "@/components/story/Atmosphere";
 import { container } from "@/components/story/Chapter";
 import ChapterLinks from "@/components/story/ChapterLinks";
 import Display from "@/components/story/Display";
-import Splatter from "@/components/story/Splatter";
 import CopyEmail from "@/components/ui/CopyEmail";
 import Icon, { type IconName } from "@/components/ui/Icon";
 import { site } from "@/data/site";
@@ -49,13 +49,10 @@ export default function Finale() {
   return (
     <footer id="contact" className="relative overflow-x-clip pt-20 sm:pt-28">
       <Glow className="-right-[20vmax] -top-[10vmax] h-[70vmax] w-[70vmax]" />
-      <Splatter
-        seed={83}
-        className="-left-40 top-[16%] hidden w-[32rem] opacity-90 lg:block"
-      />
       <Packets
         seed={89}
         count={12}
+        shark={false}
         className="left-0 top-[16%] hidden h-[16%] w-[45%] lg:block"
       />
 
@@ -82,7 +79,7 @@ export default function Finale() {
         </div>
 
         {/* credit + squares */}
-        <Appear from="right" className="mt-20 sm:mt-28 lg:ml-[50%]">
+        <Appear from="right" className="mt-20 sm:mt-28 lg:ml-[50%] lg:mt-64">
           <p className="max-w-[16rem] text-ink-muted">
             Full-stack AI engineer, building agents and the backends that hold
             them together
@@ -117,16 +114,25 @@ export default function Finale() {
 
         {/* the sign-off */}
         <div className="relative mt-8">
-          <Cross className="left-[30%] top-[62%] hidden sm:block" />
+          <Cross className="left-[72%] top-[4%] hidden sm:block" />
           <Display
             id="contact-title"
             lines={finale.headline}
             fade={[1]}
             className="relative z-10"
           />
+          {/* above the headline on lg, kept clear of it: white text over pale blue would be hard to read */}
+          <Image
+            src="/newui/octopus.png"
+            alt=""
+            width={658}
+            height={785}
+            sizes="(min-width: 1024px) 21rem, 18rem"
+            className="pointer-events-none relative mx-auto mt-10 w-full max-w-[18rem] lg:absolute lg:bottom-full lg:left-[6%] lg:mx-0 lg:mb-3 lg:mt-0 lg:w-[21rem] lg:max-w-none"
+          />
           <Parallax
             amount={40}
-            className="mix-blend-screen relative mx-auto mt-10 w-full max-w-md lg:absolute lg:-right-[2%] lg:top-[-25%] lg:mt-0 lg:w-[34%] lg:max-w-none"
+            className="mix-blend-screen hidden lg:absolute lg:block lg:-right-[2%] lg:top-[-25%] lg:mt-0 lg:w-[34%] lg:max-w-none"
           >
             <Art
               file="cable-tangle.jpg"

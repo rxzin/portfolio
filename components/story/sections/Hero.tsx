@@ -26,6 +26,7 @@ export default function Hero() {
       <Packets
         seed={19}
         count={8}
+        shark={false}
         className="right-0 top-[12%] hidden h-[30%] w-1/2 md:block"
       />
 
@@ -42,7 +43,7 @@ export default function Hero() {
         </div>
 
         <div className="relative mt-16 sm:mt-24 lg:mt-28">
-          <Cross className="left-[38%] top-[8%] hidden sm:block" />
+          <Cross className="left-[62%] top-[2%] hidden sm:block" />
           <Display
             as="h1"
             lines={hero.headline}
@@ -72,6 +73,7 @@ export default function Hero() {
           <Appear
             from="below"
             delay={0.7}
+            onLoad
             className="mt-8 flex flex-wrap items-center gap-3"
           >
             <Magnetic strength={0.2}>
@@ -84,7 +86,7 @@ export default function Hero() {
             </Magnetic>
             <ResumeLink
               download
-              className="inline-flex h-12 items-center border border-rule px-5 text-label font-semibold uppercase transition-colors hover:border-ink"
+              className="inline-flex h-12 items-center border border-ink px-5 text-label font-semibold uppercase transition-colors hover:bg-ink hover:text-bg"
             >
               Download résumé
             </ResumeLink>

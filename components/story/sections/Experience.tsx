@@ -2,8 +2,8 @@ import Appear from "@/components/motion/Appear";
 import Parallax from "@/components/motion/Parallax";
 import Art from "@/components/story/Art";
 import { Cross, Glow, Packets } from "@/components/story/Atmosphere";
+import Coral from "@/components/story/Coral";
 import Chapter, { CaseFile, Statement } from "@/components/story/Chapter";
-import Splatter from "@/components/story/Splatter";
 import BulletList from "@/components/ui/BulletList";
 import TechChip from "@/components/ui/TechChip";
 import { type Role, site } from "@/data/site";
@@ -23,9 +23,10 @@ export default function Experience() {
       backdrop={
         <>
           <Glow className="-right-[20vmax] top-[5%] h-[70vmax] w-[70vmax]" />
-          <Splatter
-            seed={37}
-            className="-right-32 bottom-[-4rem] w-[min(36rem,95vw)]"
+          <Coral
+            file="coral-3.jpg"
+            subject="brain coral on black"
+            className="-right-32 bottom-[-4rem] w-[min(36rem,95vw)] -rotate-90"
           />
           <Packets
             seed={41}
@@ -44,6 +45,7 @@ export default function Experience() {
             subject="crimson metallic server rack, three-quarter view"
             ratio={2 / 3}
             sizes="(min-width: 1024px) 40vw, 100vw"
+            className="max-lg:aspect-square!"
           />
         </Parallax>
       }

@@ -53,12 +53,12 @@ A cinematic, dark-only longread modeled on the visual language of an editorial "
 told in numbered chapters (01 About → 06 Stack), each opening with a giant uppercase headline, an 18px caps
 statement, then details. Variant 1 (ruled column, dark-mode toggle) is the `variant-1` tag / `main`.
 
-- **Type**: one family, Inter, at three sizes: display (120px at 1440, floor 36px so the longest word fits a
+- **Type**: one family, Inter, at three sizes: display (120px at 1440, 40px on a 390 phone, floor 36px so the longest word fits a
   320px phone), 18px uppercase statements, and body. Some headline lines fade toward the bottom (`text-fade`).
-- **Color**: near-black, big electric-blue glows, crimson splatters and "case file" boxes, `#eee` / `#949292` text.
+- **Color**: near-black, big electric-blue glows, crimson corals and "case file" boxes, `#eee` / `#b4b2b2` text (the muted grey holds 4.5:1 on the blue glow).
 - **Renders**: `components/story/Art.tsx` shows each image from `public/newui/`, or a same-size labeled placeholder
   until it exists. Sources, credits and how they are treated: **`docs/newui-assets.md`**.
-- **Drawn in code**: seeded crimson splatters (`Splatter.tsx`), drifting "packets" (the reference's fish), glows and
+- **Drawn in code**: a simulated fish school with sharks (`School.tsx`, physics in `lib/school.ts`), glows and
   `+` markers (`Atmosphere.tsx`). All decorative layers are aria-hidden and kept out of text areas.
 - **Motion**: slow directional entrances (`Appear`), image parallax (`Parallax`), Lenis smooth scroll, a fixed menu
   button with a full-screen chapter index (`Menu.tsx`). Inline chapter links show from 1280px; narrower uses the menu.
@@ -77,7 +77,7 @@ statement, then details. Variant 1 (ruled column, dark-mode toggle) is the `vari
 app/                 layout (Inter, metadata, JSON-LD) · page (chapter order) · globals.css (tokens)
 components/
   story/             Chapter (marker → headline → content), Display (giant headline), Art (renders),
-                     Splatter, Atmosphere (glow, packets, +), Menu, ChapterLinks
+                     Coral, Atmosphere (glow, +), School (fish), Menu, ChapterLinks
   story/sections/    Hero, About, Build, Experience, Internships, Projects, Stack, Finale
   motion/            Providers (Lenis + MotionConfig), Appear, Parallax, Magnetic, CountUp
   ui/                BulletList, TechChip, Icon, CopyEmail, ResumeLink (+ dot-matrix vendor files)
@@ -92,6 +92,6 @@ scripts/             audit-responsive.mjs
 ## Motion & accessibility
 
 - Lenis smooth scroll; anchor links glide with a nav offset.
-- `prefers-reduced-motion`: Lenis is disabled, Motion skips transforms, CSS animations stop.
+- `prefers-reduced-motion`: Lenis is disabled, Motion skips transforms, CSS animations stop, the fish hold still.
 - Sections are server components; only interactive pieces ship JS.
 - Dark only (`color-scheme: dark`); the menu moves focus to its first link, closes on Escape, and returns focus to its button.

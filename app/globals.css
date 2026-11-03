@@ -13,10 +13,11 @@
   /* 1. primitives */
   --black-950: #060606;
   --white-100: #eeeeee;
-  --grey-500: #949292;
+  --grey-500: #b4b2b2;
   --electric-600: #1834e8;
   --crimson-900: #630018;
   --crimson-500: #d0243f;
+  --steel-500: #7f8a9e;
 
   /* 2. semantic */
   --bg: var(--black-950);
@@ -25,7 +26,8 @@
   --rule: color-mix(in oklab, var(--white-100) 32%, transparent);
   --glow: var(--electric-600); /* the big blurred blue light */
   --blood: var(--crimson-900); /* splatter shapes and case-file boxes */
-  --blood-bright: var(--crimson-500); /* small accents, drifting packets */
+  --blood-bright: var(--crimson-500); /* small accents, crimson fish */
+  --shark: var(--steel-500);
 
   /* dot-matrix mark (header) reads this */
   --color-dot-on: var(--ink);
@@ -54,29 +56,12 @@
   --text-body--line-height: 1.6;
   --text-statement: clamp(1rem, 0.85rem + 0.55vw, 1.25rem);
   --text-statement--line-height: 1.28;
-  /* 120px at 1440; floor 36px keeps the longest word ("PRODUCTION", ~6.1em) inside a 320px phone */
-  --text-display: clamp(2.25rem, 8.4vw, 7.5rem);
+  --text-statement--letter-spacing: 0.01em;
+  /* 120px at 1440, 40px on a 390 phone; floor 36px keeps the longest word ("PRODUCTION", ~6.2em) inside a 320px phone */
+  --text-display: clamp(2.25rem, 0.75rem + 7.5vw, 7.5rem);
   --text-display--line-height: 0.86;
   --text-numeral: clamp(2rem, 4.5vw, 3.75rem);
   --text-numeral--line-height: 1;
-
-  --animate-drift: drift var(--drift-duration, 26s) linear infinite;
-}
-
-/* fades in and out at the ends so the loop restart is never seen */
-@keyframes drift {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-  12%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(var(--drift-distance, -60vw));
-    opacity: 0;
-  }
 }
 
 /* Headline lines that fade from solid to translucent toward the bottom (reference's signature). */
@@ -106,6 +91,7 @@
 /* ---------- base ---------- */
 html {
   background: var(--bg);
+  scrollbar-color: color-mix(in oklab, var(--ink) 30%, transparent) var(--bg);
 }
 
 body {
@@ -116,6 +102,27 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+}
+
+@layer base {
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  h3 {
+    text-wrap: balance;
+  }
+
+  /* Tailwind v4 leaves buttons on the default arrow */
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* caps at label size need air; lowercase labels keep Inter's default spacing */
+.text-label.uppercase {
+  letter-spacing: 0.04em;
 }
 
 ::selection {

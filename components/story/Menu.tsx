@@ -34,6 +34,9 @@ export default function Menu() {
     lenis?.stop();
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // keep Tab inside the overlay: the page behind it can't take focus while it is covered
+    const page = document.querySelectorAll<HTMLElement>("header, main, footer");
+    for (const el of page) el.inert = true;
     firstLinkRef.current?.focus();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
@@ -41,6 +44,7 @@ export default function Menu() {
     return () => {
       lenis?.start();
       document.body.style.overflow = prevOverflow;
+      for (const el of page) el.inert = false;
       window.removeEventListener("keydown", onKey);
       button?.focus();
     };
@@ -50,7 +54,7 @@ export default function Menu() {
     <>
       <div
         data-shown={pastHero || open}
-        className="fixed right-4 top-4 z-[70] transition-opacity duration-500 sm:right-6 sm:top-6 xl:pointer-events-none xl:opacity-0 xl:data-[shown=true]:pointer-events-auto xl:data-[shown=true]:opacity-100"
+        className="fixed right-5 top-3.5 z-[70] transition-opacity duration-500 sm:right-8 sm:top-[1.375rem] lg:right-10 xl:top-6 xl:pointer-events-none xl:opacity-0 xl:focus-within:pointer-events-auto xl:focus-within:opacity-100 xl:data-[shown=true]:pointer-events-auto xl:data-[shown=true]:opacity-100"
       >
         <button
           ref={buttonRef}
@@ -116,7 +120,7 @@ export default function Menu() {
                     <span className="text-label text-ink-muted">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-[clamp(2.25rem,7vw,5rem)] font-bold uppercase leading-[0.95] tracking-[-0.05em] transition-colors group-hover:text-blood-bright">
+                    <span className="text-[clamp(2.25rem,7vw,5rem)] font-bold uppercase leading-[0.95] tracking-[-0.025em] transition-colors group-hover:text-blood-bright">
                       {l.label}
                     </span>
                   </a>

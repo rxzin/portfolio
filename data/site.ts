@@ -349,7 +349,7 @@ export const site = {
     hero: {
       headline: ["Building AI", "that survives", "production"],
       statement:
-        "Full-stack AI engineer building the backends and LLM agents behind multi-tenant SaaS, sales automation and RAG",
+        "Full-stack AI engineer building the backends and LLM agents behind multi\u2011tenant SaaS, sales automation and RAG",
       note: "Razin Chinwala, Ahmedabad. Currently building at Code Colonies.",
     },
     about: {

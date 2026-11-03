@@ -11,7 +11,7 @@ interface ChapterProps {
   label: string;
   headline: string[];
   fade?: number[];
-  /** decorative layers (glows, splatters, packets, art) rendered behind the content */
+  /** decorative layers (glows, splatters, fish, art) rendered behind the content */
   backdrop?: ReactNode;
   /** content that sits beside/over the headline (e.g. a render), inside the same container */
   aside?: ReactNode;
@@ -78,7 +78,7 @@ export function Statement({
 }) {
   return (
     <p
-      className={`text-statement font-semibold uppercase text-ink ${className}`}
+      className={`text-balance text-statement font-semibold uppercase text-ink ${className}`}
     >
       {children}
     </p>

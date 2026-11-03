@@ -2,8 +2,8 @@ import Appear from "@/components/motion/Appear";
 import Parallax from "@/components/motion/Parallax";
 import Art from "@/components/story/Art";
 import { Glow, Packets } from "@/components/story/Atmosphere";
+import Coral from "@/components/story/Coral";
 import Chapter, { CaseFile, Statement } from "@/components/story/Chapter";
-import Splatter from "@/components/story/Splatter";
 import BulletList from "@/components/ui/BulletList";
 import TechChip from "@/components/ui/TechChip";
 import { site } from "@/data/site";
@@ -24,9 +24,10 @@ export default function Internships() {
       backdrop={
         <>
           <Glow className="-left-[25vmax] top-[20%] h-[75vmax] w-[75vmax]" />
-          <Splatter
-            seed={53}
-            className="-left-36 top-[45%] w-[min(32rem,90vw)]"
+          <Coral
+            file="coral-1.jpg"
+            subject="red finger coral on black"
+            className="-left-36 top-[45%] w-[min(32rem,90vw)] rotate-90"
           />
           <Packets
             seed={59}

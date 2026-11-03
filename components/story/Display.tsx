@@ -25,7 +25,7 @@ export default function Display({
   return (
     <Tag
       id={id}
-      className={`text-display font-bold uppercase tracking-[-0.055em] [overflow-wrap:normal] ${className}`}
+      className={`text-display font-bold uppercase tracking-[-0.025em] [overflow-wrap:normal] ${className}`}
     >
       {lines.map((line, i) => {
         const [left, right] = line.split("|");

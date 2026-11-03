@@ -1,7 +1,7 @@
 import Appear from "@/components/motion/Appear";
 import { Glow, Packets } from "@/components/story/Atmosphere";
+import Coral from "@/components/story/Coral";
 import Chapter, { Statement } from "@/components/story/Chapter";
-import Splatter from "@/components/story/Splatter";
 import { site } from "@/data/site";
 
 const { build } = site.story;
@@ -17,9 +17,10 @@ export default function Build() {
       backdrop={
         <>
           <Glow className="-left-[25vmax] top-[30%] h-[70vmax] w-[70vmax]" />
-          <Splatter
-            seed={23}
-            className="-left-24 top-[38%] hidden w-[30rem] lg:block"
+          <Coral
+            file="coral-2.jpg"
+            subject="branching coral on black"
+            className="-left-24 top-[38%] hidden w-[30rem] rotate-90 lg:block"
           />
           <Packets
             seed={29}

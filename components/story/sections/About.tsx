@@ -1,8 +1,8 @@
 import Appear from "@/components/motion/Appear";
 import CountUp from "@/components/motion/CountUp";
 import { Glow } from "@/components/story/Atmosphere";
+import Coral from "@/components/story/Coral";
 import Chapter, { CaseFile, Statement } from "@/components/story/Chapter";
-import Splatter from "@/components/story/Splatter";
 import { site } from "@/data/site";
 import { rich } from "@/lib/rich";
 
@@ -19,9 +19,10 @@ export default function About() {
       backdrop={
         <>
           <Glow className="-right-[25vmax] top-[15%] h-[75vmax] w-[75vmax]" />
-          <Splatter
-            seed={11}
-            className="-right-24 bottom-[-10rem] hidden w-[30rem] opacity-95 lg:block"
+          <Coral
+            file="coral-1.jpg"
+            subject="red finger coral on black"
+            className="-right-24 bottom-[-10rem] hidden w-[30rem] -rotate-90 lg:block"
           />
         </>
       }
@@ -61,7 +62,7 @@ export default function About() {
                     {s.prefix && (
                       <span className="text-statement">{s.prefix}</span>
                     )}
-                    <span className="text-numeral">
+                    <span className="text-numeral tabular-nums">
                       <CountUp value={s.value} decimals={s.decimals} />
                     </span>
                     {s.suffix && (

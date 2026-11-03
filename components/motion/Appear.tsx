@@ -15,6 +15,8 @@ interface AppearProps {
   className?: string;
   /** "span" inside headings (phrasing content), "li" inside lists */
   as?: "div" | "span" | "li";
+  /** play on page load instead of waiting to scroll into view (above-the-fold content) */
+  onLoad?: boolean;
 }
 
 const DISTANCE = 80;
@@ -30,6 +32,7 @@ export default function Appear({
   duration = 1.4,
   className,
   as = "div",
+  onLoad = false,
 }: AppearProps) {
   const offset =
     from === "left"
@@ -44,8 +47,12 @@ export default function Appear({
     <Tag
       className={className}
       initial={{ opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      {...(onLoad
+        ? { animate: { opacity: 1, x: 0, y: 0 } }
+        : {
+            whileInView: { opacity: 1, x: 0, y: 0 },
+            viewport: { once: true, margin: "0px 0px -8% 0px" },
+          })}
       transition={{ duration, delay, ease: ease.outExpo }}
     >
       {children}

@@ -2,8 +2,8 @@ import Appear from "@/components/motion/Appear";
 import Parallax from "@/components/motion/Parallax";
 import Art from "@/components/story/Art";
 import { Cross, Glow, Packets } from "@/components/story/Atmosphere";
+import Coral from "@/components/story/Coral";
 import Chapter, { CaseFile, Statement } from "@/components/story/Chapter";
-import Splatter from "@/components/story/Splatter";
 import BulletList from "@/components/ui/BulletList";
 import TechChip from "@/components/ui/TechChip";
 import { site } from "@/data/site";
@@ -32,9 +32,10 @@ export default function Projects() {
       backdrop={
         <>
           <Glow className="-right-[22vmax] top-[25%] h-[80vmax] w-[80vmax]" />
-          <Splatter
-            seed={67}
-            className="-left-32 bottom-[4%] hidden w-[30rem] lg:block"
+          <Coral
+            file="coral-2.jpg"
+            subject="branching coral on black"
+            className="-right-32 bottom-[4%] hidden w-[30rem] -rotate-90 lg:block"
           />
           <Packets
             seed={71}
@@ -53,6 +54,7 @@ export default function Projects() {
             subject="crimson metallic humanoid robot head in profile, internal mechanics visible"
             ratio={4 / 5}
             sizes="(min-width: 1024px) 34vw, 100vw"
+            className="max-lg:aspect-square!"
           />
         </Parallax>
       }
@@ -69,7 +71,7 @@ export default function Projects() {
             <span>{featured.kind}</span>
             <span>{featured.year}</span>
           </p>
-          <h3 className="mt-2 text-[clamp(1.5rem,1rem+1.8vw,2.5rem)] font-bold uppercase leading-[1] tracking-[-0.04em]">
+          <h3 className="mt-2 text-[clamp(1.5rem,1rem+1.8vw,2.5rem)] font-bold uppercase leading-[1] tracking-[-0.02em]">
             {featured.title}
           </h3>
           <p className="mt-4 max-w-[38rem] text-ink-muted">

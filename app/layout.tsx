@@ -5,7 +5,12 @@ import { site } from "@/data/site";
 import "./globals.css";
 
 // One family, like the reference: Inter at display, statement and body sizes.
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+// opsz gives the giant headlines Inter's display cut; body sizes keep the text cut.
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  axes: ["opsz"],
+});
 
 const title = `${site.name} | ${site.role}`;
 
@@ -68,6 +73,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify(personSchema).replace(/</g, "\\u003c"),
           }}
         />
+        {/* Entrances start at opacity 0 and need JS to run: without it, show everything at rest. */}
+        <noscript>
+          <style>
+            {"[style*=opacity]{opacity:1!important;transform:none!important}"}
+          </style>
+        </noscript>
         <Providers>{children}</Providers>
       </body>
     </html>

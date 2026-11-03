@@ -24,7 +24,11 @@ export default function Parallax({
   const y = useTransform(scrollYProgress, [0, 1], [amount, -amount]);
 
   return (
-    <motion.div ref={ref} style={{ y }} className={className}>
+    <motion.div
+      ref={ref}
+      style={{ y }}
+      className={`pointer-events-none ${className ?? ""}`}
+    >
       {children}
     </motion.div>
   );

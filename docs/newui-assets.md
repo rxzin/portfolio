@@ -25,6 +25,10 @@ permission needed. Attribution isn't required, but the footer credits Unsplash a
 | `debris-2.jpg` | 06 Stack margin | mono | Igor Omilaev | [Unsplash](https://unsplash.com/photos/a-close-up-of-a-multicolored-rope-on-a-black-background-R4xgDZ8jtKo) |
 | `debris-3.jpg` | 06 Stack margin | mono | Rutwik Deshmukh | [Unsplash](https://unsplash.com/photos/black-and-white-iphone-case-SvS3fVHArM4) |
 | `debris-4.jpg` | 06 Stack margin | mono | Dennis Brekke | [Unsplash](https://unsplash.com/photos/white-coated-wire-Z0tB7Rr4xx4) |
+| `octopus.png` | Finale | none (white background removed) | Unknown artist | [Pinterest](https://i.pinimg.com/736x/47/50/c7/4750c777fcdef5551deb8bf96c5319b0.jpg). License not confirmed: get the artist's permission before publishing |
+| `coral-1.jpg` | 01 About, 04 Internships | crimson | Yassine Ait Tahit | [Unsplash](https://unsplash.com/photos/DibTyzxfPYc) |
+| `coral-2.jpg` | 02 What I build, 05 Projects | crimson | Birmingham Museums Trust | [Unsplash](https://unsplash.com/photos/vo7tr8ROXKQ) |
+| `coral-3.jpg` | 03 Experience | crimson | David Clode | [Unsplash](https://unsplash.com/photos/a-close-up-of-a-coral-on-a-black-background-MrKFz_bISco) |
 
 ## Swapping an image
 
