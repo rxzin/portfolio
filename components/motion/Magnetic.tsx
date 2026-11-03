@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "motion/react";
 import { type ReactNode, useRef } from "react";
 import { spring } from "@/lib/motion";
 
@@ -23,9 +28,10 @@ export default function Magnetic({
   const ref = useRef<HTMLDivElement>(null);
   const x = useSpring(useMotionValue(0), spring.snappy);
   const y = useSpring(useMotionValue(0), spring.snappy);
+  const reduce = useReducedMotion();
 
   const onMove = (e: React.PointerEvent) => {
-    if (e.pointerType !== "mouse" || !ref.current) return;
+    if (reduce || e.pointerType !== "mouse" || !ref.current) return;
     const r = ref.current.getBoundingClientRect();
     x.set((e.clientX - r.left - r.width / 2) * strength);
     y.set((e.clientY - r.top - r.height / 2) * strength);

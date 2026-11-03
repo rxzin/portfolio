@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { useId, useState } from "react";
+import Icon from "@/components/ui/Icon";
 import { dur, ease } from "@/lib/motion";
 import { rich } from "@/lib/rich";
 
@@ -9,10 +10,10 @@ const VISIBLE = 3;
 
 function Bullet({ text }: { text: string }) {
   return (
-    <li className="flex gap-3">
+    <li className="group flex gap-3 transition-colors duration-150 hover:text-ink">
       <span
         aria-hidden
-        className="mt-[0.75em] h-px w-3 shrink-0 bg-ink-muted"
+        className="mt-[0.75em] h-px w-3 shrink-0 origin-left bg-ink-muted transition duration-200 ease-out-expo group-hover:scale-x-150 group-hover:bg-ink"
       />
       <span>{rich(text)}</span>
     </li>
@@ -27,7 +28,7 @@ export default function BulletList({ items }: { items: string[] }) {
   const rest = items.slice(VISIBLE);
 
   return (
-    <div className="mt-4 text-ink-muted">
+    <div className="mt-4 max-w-measure text-ink-muted">
       <ul className="space-y-2">
         {first.map((b) => (
           <Bullet key={b} text={b} />
@@ -55,9 +56,13 @@ export default function BulletList({ items }: { items: string[] }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={moreId}
-            className="mt-2 py-2 font-mono text-meta text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink"
+            className="mt-2 inline-flex items-center gap-1 py-2 font-mono text-meta text-ink underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink"
           >
             {open ? "Show less" : `Show ${rest.length} more`}
+            <Icon
+              name="chevronDown"
+              className={`h-3.5 w-3.5 transition-transform duration-300 ease-out-expo ${open ? "rotate-180" : ""}`}
+            />
           </button>
         </>
       )}

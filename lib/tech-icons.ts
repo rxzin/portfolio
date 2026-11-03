@@ -31,7 +31,6 @@ import {
   siTypeorm,
   siTypescript,
   siVercel,
-  siRedbull,
 } from "simple-icons";
 import { awsIcon } from "./aws-icon";
 
@@ -72,7 +71,6 @@ const byName: Record<string, Pick<SimpleIcon, "hex" | "path">> = {
   AWS: awsIcon,
   "AWS Bedrock": awsIcon,
   pgvector: siPostgresql,
-  BullMQ: siRedbull,
 };
 
 /** Relative luminance of a hex color, 0 (black) to 1 (white). */

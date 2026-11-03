@@ -74,6 +74,9 @@
 
   --ease-out-expo: var(--ease-out-expo);
 
+  /* comfortable reading width for running text (max-w-measure) */
+  --container-measure: 36rem;
+
   /* type scale */
   --text-meta: 0.8125rem;
   --text-meta--line-height: 1.5;
@@ -85,8 +88,8 @@
   --text-lead--line-height: 1.55;
   --text-h2: clamp(1.375rem, 3vw, 1.625rem);
   --text-h2--line-height: 1.25;
-  --text-h1: clamp(1.75rem, 5vw, 2.25rem);
-  --text-h1--line-height: 1.15;
+  --text-h1: clamp(2.75rem, min(11vw, 26svh), 13rem);
+  --text-h1--line-height: 0.92;
   --text-stat: clamp(1.75rem, 5vw, 2.25rem);
   --text-stat--line-height: 1.1;
 }
@@ -118,6 +121,29 @@
   }
 }
 
+/* Breaks out of the centered column to the full screen width; the parent must be positioned.
+   Set the vertical extent with top/bottom or inset-y. The page wrapper clips the overflow. */
+@utility full-bleed {
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  translate: -50% 0;
+}
+
+/* Sits behind the hero's text block and keeps it readable even over a full-white beam: strong behind
+   the small text, lighter behind the large name. Rises 6rem above the block, and fades out to the
+   right past 40rem, so phones get the full width and on desktop the rest of the background stays clear. */
+@utility hero-scrim {
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklab, var(--bg) 60%, transparent) 6rem,
+    color-mix(in oklab, var(--bg) 85%, transparent) 60%
+  );
+  mask-image: linear-gradient(to right, black 40rem, transparent 62rem);
+}
+
 /* Blueprint texture: diagonal hatching for the gaps between sections. */
 @utility bg-hatch {
   background-image: repeating-linear-gradient(
@@ -145,6 +171,18 @@
 /* ---------- base ---------- */
 html {
   background: var(--bg);
+  scrollbar-color: var(--rule) transparent;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
 }
 
 body {
@@ -166,13 +204,63 @@ body {
   outline-offset: 2px;
 }
 
-/* pointer-following glow; SpotlightCard sets --x / --y */
+/* pointer-following glow; SpotlightCard sets --x / --y. It fades out when the pointer leaves. */
 .spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out-expo);
   background: radial-gradient(
     320px circle at var(--x, -999px) var(--y, -999px),
     color-mix(in oklab, var(--accent) 7%, transparent),
     transparent 65%
   );
+}
+@media (hover: hover) {
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+}
+
+/* A section arriving: its title rule draws outward, its + marks turn a quarter, its body fades in.
+   Hidden states apply only under .js (set before paint in layout.tsx) and only on screen, so the
+   content stays visible without JavaScript and in print. RevealSection sets data-seen. */
+.reveal-body {
+  transition: opacity 600ms var(--ease-out-expo);
+}
+.reveal-rule::after {
+  transition: transform 1100ms var(--ease-out-expo);
+}
+[data-reveal] > .cross {
+  transition: rotate 900ms var(--ease-out-expo);
+}
+@media screen {
+  .js [data-reveal]:not([data-seen]) .reveal-body {
+    opacity: 0;
+  }
+  .js [data-reveal]:not([data-seen]) .reveal-rule::after {
+    transform: scaleX(0);
+  }
+  .js [data-reveal]:not([data-seen]) > .cross {
+    rotate: -90deg;
+  }
+}
+
+/* the colon in the local time ticks like a clock */
+.tick {
+  animation: tick 2s steps(1) infinite;
+}
+@keyframes tick {
+  50% {
+    opacity: 0.35;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -49,7 +49,8 @@ export const viewport: Viewport = {
 };
 
 // Runs before first paint: saved choice, else the system setting. Prevents a light→dark flash.
-const themeScript = `(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}})()`;
+// Also marks that JS is running, which is what allows sections to start hidden (see globals.css).
+const themeScript = `(function(){document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}})()`;
 
 // Structured data so search engines understand who this page is about.
 const personSchema = {

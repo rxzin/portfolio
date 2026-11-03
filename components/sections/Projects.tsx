@@ -24,7 +24,7 @@ export default function Projects() {
             <p className="font-mono text-meta text-ink-muted">{p.year}</p>
           </div>
           <p className="font-mono text-meta text-ink-muted">{p.kind}</p>
-          <p className="mt-3 text-ink-muted">{p.summary}</p>
+          <p className="mt-3 max-w-measure text-ink-muted">{p.summary}</p>
           <BulletList items={p.bullets} />
           <Tags items={p.stack} />
         </SpotlightCard>

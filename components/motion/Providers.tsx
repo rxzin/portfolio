@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 
 /**
  * Lenis smooth scrolling + global Motion config.
- * - `anchors` makes every <a href="#id"> glide (offset clears the fixed nav).
+ * - `anchors` makes every <a href="#id"> glide. Lenis honors each target's scroll-margin-top, which is what clears the fixed nav.
  * - Users who prefer reduced motion get native scrolling and no transform animations.
  */
 export default function Providers({ children }: { children: ReactNode }) {
@@ -17,7 +17,7 @@ export default function Providers({ children }: { children: ReactNode }) {
       {reduce ? (
         children
       ) : (
-        <ReactLenis root options={{ lerp: 0.09, anchors: { offset: -72 } }}>
+        <ReactLenis root options={{ lerp: 0.09, anchors: true }}>
           {children}
         </ReactLenis>
       )}

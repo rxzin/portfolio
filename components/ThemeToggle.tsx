@@ -58,9 +58,9 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label="Switch between light and dark theme"
-      className="grid h-9 w-9 place-items-center text-ink-muted transition-colors hover:text-ink"
+      className="grid h-9 w-9 place-items-center text-ink-muted transition hover:text-ink active:scale-90"
     >
-      {/* moon in light mode, sun in dark mode; pure CSS so there's no hydration flicker */}
+      {/* moon in light mode, sun in dark mode; they turn past each other. Pure CSS so there's no hydration flicker */}
       <svg
         aria-hidden="true"
         viewBox="0 0 24 24"
@@ -69,7 +69,7 @@ export default function ThemeToggle() {
         strokeWidth="1.75"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="h-4 w-4 dark:hidden"
+        className="col-start-1 row-start-1 h-4 w-4 transition duration-500 ease-out-expo dark:-rotate-90 dark:scale-50 dark:opacity-0"
       >
         <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
       </svg>
@@ -81,7 +81,7 @@ export default function ThemeToggle() {
         strokeWidth="1.75"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="hidden h-4 w-4 dark:block"
+        className="col-start-1 row-start-1 h-4 w-4 rotate-90 scale-50 opacity-0 transition duration-500 ease-out-expo dark:rotate-0 dark:scale-100 dark:opacity-100"
       >
         <circle cx="12" cy="12" r="4" />
         <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />

@@ -43,6 +43,15 @@ const paths = {
       <circle cx="4" cy="4" r="2" />
     </>
   ),
+  copy: (
+    <>
+      <rect x="8" y="8" width="14" height="14" rx="2" />
+      <path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2" />
+    </>
+  ),
+  check: <path d="M20 6 9 17l-5-5" />,
+  arrowUpRight: <path d="M7 17 17 7M7 7h10v10" />,
+  chevronDown: <path d="m6 9 6 6 6-6" />,
 };
 
 export type IconName = keyof typeof paths;

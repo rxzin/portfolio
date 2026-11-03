@@ -12,6 +12,8 @@ export interface Link {
 
 export interface Stat {
   value: number;
+  /** where the count starts, default 0 */
+  from?: number;
   /** digits after the decimal point when counting up */
   decimals?: number;
   prefix?: string;
@@ -58,6 +60,8 @@ export interface SkillGroup {
 export const site = {
   name: "Razin Chinwala",
   role: "Full-stack AI engineer",
+  /** the subheading under the name in the hero */
+  heroRole: "FullStack Engineer",
   company: "Code Colonies",
   location: "Ahmedabad, India",
   timezone: "Asia/Kolkata",
@@ -105,7 +109,12 @@ export const site = {
       label:
         "routes moved off legacy Express in under a week, with zero regressions",
     },
-    { value: 6, prefix: "Top ", label: "of 650+ teams at IBM SkillsBuild" },
+    {
+      value: 6,
+      from: 650,
+      prefix: "Top ",
+      label: "of 650+ teams at IBM SkillsBuild",
+    },
     {
       value: 0.89,
       decimals: 2,

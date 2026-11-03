@@ -16,7 +16,9 @@
       "!_legacy",
       "!components/ui/dotm-*.tsx",
       "!lib/dotmatrix-*",
-      "!components/dotmatrix-loader.css"
+      "!components/dotmatrix-loader.css",
+      "!components/Beams.tsx",
+      "!components/Ferrofluid.tsx"
     ]
   },
   "formatter": {

@@ -20,5 +20,13 @@ export default function LocalTime() {
     return () => clearInterval(id);
   }, []);
 
-  return <span className="tabular-nums">{time ?? "--:--"} local time</span>;
+  const [hours, minutes] = (time ?? "--:--").split(":");
+
+  return (
+    <span className="tabular-nums">
+      {hours}
+      <span className={time ? "tick" : undefined}>:</span>
+      {minutes} local time
+    </span>
+  );
 }
