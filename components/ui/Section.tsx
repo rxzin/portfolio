@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Reveal from "@/components/motion/Reveal";
+import RevealSection from "@/components/motion/RevealSection";
 
 interface SectionProps {
   id: string;
@@ -11,12 +11,14 @@ interface SectionProps {
   children: ReactNode;
 }
 
-/** Hatched band between sections, with + marks where its rules meet the column edges. */
-export function Gap() {
+/** Hatched band across the full screen between sections, with + marks where its rules meet the column edges. */
+export function Gap({ marks = "top" }: { marks?: "top" | "bottom" }) {
+  const y = marks === "top" ? "top-0" : "top-full";
   return (
-    <div aria-hidden className="bg-hatch relative h-10 sm:h-12">
-      <span className="cross left-0 top-0" />
-      <span className="cross left-full top-0" />
+    <div aria-hidden className="relative h-10 sm:h-12">
+      <span className="bg-hatch full-bleed inset-y-0" />
+      <span className={`cross left-0 ${y}`} />
+      <span className={`cross left-full ${y}`} />
     </div>
   );
 }
@@ -32,14 +34,14 @@ export default function Section({
   return (
     <>
       <Gap />
-      <section
+      <RevealSection
         id={id}
         aria-labelledby={`${id}-title`}
         className="rule-t rule-b scroll-mt-16"
       >
         <span aria-hidden className="cross left-0 top-0" />
         <span aria-hidden className="cross left-full top-0" />
-        <div className="rule-b flex items-baseline justify-between gap-4 px-5 py-3 sm:px-6">
+        <div className="rule-b reveal-rule flex items-baseline justify-between gap-4 px-5 py-3 sm:px-6">
           <h2
             id={`${id}-title`}
             className="text-h2 font-semibold tracking-[-0.01em]"
@@ -50,8 +52,8 @@ export default function Section({
             <span className="font-mono text-meta text-ink-muted">{aside}</span>
           )}
         </div>
-        <Reveal className={bodyClassName}>{children}</Reveal>
-      </section>
+        <div className={`reveal-body ${bodyClassName}`}>{children}</div>
+      </RevealSection>
     </>
   );
 }

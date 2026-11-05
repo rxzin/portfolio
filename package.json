@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/check-webgl-cleanup.mjs && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome check",
+    "lint": "node scripts/check-webgl-cleanup.mjs && biome check",
     "format": "biome format --write",
     "audit:responsive": "node scripts/audit-responsive.mjs"
   },

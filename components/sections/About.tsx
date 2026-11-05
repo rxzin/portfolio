@@ -5,7 +5,7 @@ import { rich } from "@/lib/rich";
 export default function About() {
   return (
     <Section id="about" title="About">
-      <div className="space-y-4 text-ink-muted [&_strong]:text-ink">
+      <div className="max-w-measure space-y-4 text-ink-muted [&_strong]:text-ink">
         {site.about.map((p) => (
           <p key={p}>{rich(p)}</p>
         ))}

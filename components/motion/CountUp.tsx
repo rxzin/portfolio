@@ -1,29 +1,35 @@
 "use client";
 
-import { animate, useInView } from "motion/react";
+import { animate, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 import type { Stat } from "@/data/site";
 import { ease } from "@/lib/motion";
 
 const format = (
   n: number,
-  { decimals = 0, prefix = "", suffix = "" }: Omit<Stat, "label" | "value">,
+  {
+    decimals = 0,
+    prefix = "",
+    suffix = "",
+  }: Pick<Stat, "decimals" | "prefix" | "suffix">,
 ) => `${prefix}${n.toFixed(decimals)}${suffix}`;
 
-/** Counts from 0 to the metric's value the first time it enters the viewport. */
+/** Counts to the metric's value (from `from`, default 0) the first time it enters the viewport. */
 export default function CountUp({
   value,
+  from = 0,
   decimals = 0,
   prefix = "",
   suffix = "",
 }: Omit<Stat, "label">) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
+  const reduce = useReducedMotion();
 
   useEffect(() => {
-    if (!inView || !ref.current) return;
+    if (!inView || reduce || !ref.current) return;
     const el = ref.current;
-    const controls = animate(0, value, {
+    const controls = animate(from, value, {
       duration: 1.4,
       ease: ease.outExpo,
       onUpdate: (n) => {
@@ -31,7 +37,7 @@ export default function CountUp({
       },
     });
     return () => controls.stop();
-  }, [inView, value, decimals, prefix, suffix]);
+  }, [inView, reduce, from, value, decimals, prefix, suffix]);
 
   // Server-render the final value so the number is correct without JS / for crawlers.
   return (

@@ -1,3 +1,4 @@
+import SpotlightCard from "@/components/motion/SpotlightCard";
 import BulletList from "@/components/ui/BulletList";
 import Mark from "@/components/ui/Mark";
 import Tags from "@/components/ui/Tags";
@@ -7,7 +8,11 @@ import { formatDuration, formatRange } from "@/lib/time";
 /** One job or internship: where, what, when, then the details. */
 export default function RoleEntry({ role }: { role: Role }) {
   return (
-    <article id={role.id} className="scroll-mt-20 px-5 py-6 sm:px-6">
+    <SpotlightCard
+      as="article"
+      id={role.id}
+      className="scroll-mt-20 px-5 py-6 sm:px-6"
+    >
       <header className="flex items-start gap-4">
         <Mark text={role.mark} live={!role.end} />
         <div className="min-w-0 flex-1">
@@ -24,9 +29,11 @@ export default function RoleEntry({ role }: { role: Role }) {
           </p>
         </div>
       </header>
-      {role.summary && <p className="mt-4 text-ink-muted">{role.summary}</p>}
+      {role.summary && (
+        <p className="mt-4 max-w-measure text-ink-muted">{role.summary}</p>
+      )}
       <BulletList items={role.bullets} />
       <Tags items={role.stack} />
-    </article>
+    </SpotlightCard>
   );
 }

@@ -1,99 +1,104 @@
-import Cover from "@/components/Cover";
-import { HeroMark } from "@/components/DotMarks";
+import HeroBackground from "@/components/HeroBackground";
+import CopyEmail from "@/components/ui/CopyEmail";
+import ExternalLink from "@/components/ui/ExternalLink";
 import Icon, { type IconName } from "@/components/ui/Icon";
 import LocalTime from "@/components/ui/LocalTime";
 import { site } from "@/data/site";
 import { getResumeHref, RESUME_DOWNLOAD_NAME } from "@/lib/resume";
 
+// same left edge as the logo in the nav (its padding, plus its 1px border)
+const edge = "px-[33px] sm:px-[41px]";
+
 // inline-block + py-1 keeps each link at least 24px tall for touch
 const linkClass =
-  "inline-block py-1 underline decoration-rule underline-offset-4 transition-colors hover:decoration-ink";
+  "inline-block py-1 underline decoration-current/40 underline-offset-4 transition-colors hover:decoration-current";
 
-function Row({
+function Fact({
   icon,
-  wide,
+  className = "",
   children,
 }: {
   icon: IconName;
-  /** span both columns (for long lines) */
-  wide?: boolean;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <li
-      className={`flex min-w-0 items-center gap-3 ${wide ? "sm:col-span-2" : ""}`}
-    >
-      <span className="grid h-7 w-7 shrink-0 place-items-center border border-rule bg-panel text-ink-muted">
-        <Icon name={icon} className="h-3.5 w-3.5" />
-      </span>
-      <span className="min-w-0 wrap:anywhere">{children}</span>
+    <li className={`flex min-w-0 items-center gap-2 ${className}`}>
+      <Icon name={icon} className="h-3.5 w-3.5 shrink-0" />
+      <span className="min-w-0 wrap-anywhere">{children}</span>
     </li>
   );
 }
 
-/** Who I am in one glance: name, one line, and the overview facts. */
+/** The first screen: the background, the name large on the left, and the facts in a slim strip along the bottom. */
 export default function Intro() {
   const github = site.socials.find((s) => s.label === "GitHub");
   const linkedin = site.socials.find((s) => s.label === "LinkedIn");
   const resume = getResumeHref();
 
   return (
-    <section id="top" aria-label="Introduction" className="rule-b">
-      <Cover />
-      {/* the dot-matrix mark overlaps the cover like a profile header */}
-      <div className="rule-b flex items-end gap-5 px-5 pb-6 sm:px-6">
-        <span className="relative z-2 -mt-10 grid shrink-0 place-items-center border border-rule bg-panel p-3 shadow-[0_0_0_6px_var(--bg)] sm:-mt-12">
-          <HeroMark />
-        </span>
-        <div className="min-w-0 pt-4">
-          <h1 className="text-h1 font-semibold tracking-[-0.02em]">
-            {site.name}
+    // z-2 forms its own stacking context, so the background's -z-10 stays above the page's own background
+    // and the column's + marks and top rule, which start at its bottom edge, stay out of the hero
+    <section
+      id="top"
+      aria-label="Introduction"
+      className="relative z-2 flex min-h-svh flex-col"
+    >
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <HeroBackground />
+      </div>
+
+      <div
+        className={`relative flex flex-1 flex-col justify-end pb-8 pt-24 ${edge}`}
+      >
+        <div className="relative">
+          {/* keeps the text readable over whichever background is in use */}
+          <div
+            aria-hidden
+            className="hero-scrim absolute -inset-x-[41px] -top-24 -bottom-8 -z-1"
+          />
+          <h1 className="text-h1 font-semibold uppercase tracking-[-0.03em]">
+            {site.name.split(" ").map((word) => (
+              <span key={word} className="block">
+                {word}{" "}
+              </span>
+            ))}
           </h1>
-          <p className="mt-1 text-ink-muted">{site.role}</p>
+          <p className="mt-4 text-lead text-ink-muted">{site.heroRole}</p>
+          <p className="mt-2 max-w-measure text-lead">{site.tagline}</p>
         </div>
       </div>
 
-      <p className="rule-b px-5 py-5 text-lead sm:px-6">{site.tagline}</p>
-
-      <ul className="grid gap-x-6 gap-y-3 px-5 py-5 font-mono text-small sm:grid-cols-2 sm:px-6">
-        <Row icon="briefcase" wide>
-          Building AI products at {site.company}
-        </Row>
-        <Row icon="pin">{site.location}</Row>
-        <Row icon="clock">
+      <ul
+        className={`flex flex-wrap items-center gap-x-5 gap-y-1 bg-bg/75 py-2.5 font-mono text-meta backdrop-blur-md pointer-coarse:bg-bg/90 pointer-coarse:backdrop-blur-none ${edge}`}
+      >
+        <Fact icon="briefcase">Building AI products at {site.company}</Fact>
+        <Fact icon="pin">{site.location}</Fact>
+        <Fact icon="clock">
           <LocalTime />
-        </Row>
-        <Row icon="mail">
+        </Fact>
+        <Fact icon="mail" className="xl:ml-auto">
           <a href={`mailto:${site.email}`} className={linkClass}>
             {site.email}
-          </a>
-        </Row>
+          </a>{" "}
+          <CopyEmail compact />
+        </Fact>
         {github && (
-          <Row icon="github">
-            <a
-              href={github.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={linkClass}
-            >
-              {github.href.replace("https://", "")}
-            </a>
-          </Row>
+          <Fact icon="github">
+            <ExternalLink href={github.href} className={linkClass}>
+              GitHub
+            </ExternalLink>
+          </Fact>
         )}
         {linkedin && (
-          <Row icon="linkedin">
-            <a
-              href={linkedin.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={linkClass}
-            >
+          <Fact icon="linkedin">
+            <ExternalLink href={linkedin.href} className={linkClass}>
               LinkedIn
-            </a>
-          </Row>
+            </ExternalLink>
+          </Fact>
         )}
         {resume && (
-          <Row icon="file">
+          <Fact icon="file">
             <a
               href={resume}
               download={RESUME_DOWNLOAD_NAME}
@@ -101,7 +106,7 @@ export default function Intro() {
             >
               Résumé
             </a>
-          </Row>
+          </Fact>
         )}
       </ul>
     </section>

@@ -39,6 +39,7 @@ Deploys to Vercel as-is.
 | Colors, fonts, type scale  | `app/globals.css` (design tokens)                 |
 | Animation easing/durations | `lib/motion.ts` (+ matching CSS vars)             |
 | Résumé                     | drop any PDF into `public/resume/` (see below)    |
+| Domain, name, SEO text     | `url`, `role`, `description` in `data/site.ts`    |
 
 ### Résumé
 
@@ -54,13 +55,17 @@ the full screen width (`rule-t` / `rule-b` utilities in `globals.css`). It tells
 who I am → my path → numbers → what I build → experience → internships → projects → stack → education → contact.
 Type: **Instrument Sans** for reading, **JetBrains Mono** for dates, durations and data.
 
-- **Cover** (`components/Cover.tsx`): canvas dot grid at the top that lights up around the pointer, ripples on
-  click/tap, and drifts on its own when idle. Pauses off-screen; static with reduced motion.
+- **Hero** (`components/sections/Intro.tsx`): full screen, outside the ruled column. To try another background,
+  change only `components/HeroBackground.tsx`; it can return anything that fills its parent.
+- **WebGL components** (`components/Beams.tsx`, `components/Ferrofluid.tsx`): [React Bits](https://reactbits.dev),
+  installed with the shadcn CLI and excluded from Biome. Their cleanup calls `loseContext()`, which leaves the canvas
+  blank under Strict Mode, so that line is removed locally. `scripts/check-webgl-cleanup.mjs` runs with `pnpm dev` and
+  `pnpm lint`, and names the line to delete if an update or a new component brings it back.
 - **Blueprint texture**: hatched gaps between sections (`bg-hatch`) and + marks where rules cross (`cross`).
 - **Logos**: brand icons from [Simple Icons](https://simpleicons.org) (CC0) in tech chips, mapped in
   `lib/tech-icons.ts` (names without an icon render as text). Company/school tiles use the `mark` field in `data/site.ts`.
-- **Dot-matrix marks** (`components/DotMarks.tsx`): animated loaders from [dotmatrix](https://dotmatrix.zzzzshawn.cloud)
-  beside the name: `dotm-3x3-11` in the nav, `dotm-square-12` in the intro. All their settings live in that one file.
+- **Dot-matrix mark** (`components/DotMarks.tsx`): animated loader from [dotmatrix](https://dotmatrix.zzzzshawn.cloud)
+  beside the name in the nav (`dotm-3x3-11`). All its settings live in that one file.
   Installed with the shadcn CLI (`components.json` registers `@dotmatrix`); the vendor files
   (`components/ui/dotm-*`, `lib/dotmatrix-*`, `components/dotmatrix-loader.css`) are excluded from Biome so
   `pnpm dlx shadcn@latest add @dotmatrix/<name> --overwrite` can update them cleanly.
@@ -83,19 +88,21 @@ components/
   sections/      Intro, About, Numbers, Services, Experience (also used for Internships),
                  Projects, Stack, Education, Contact
   RoleEntry.tsx  one job/internship: org, title, dates, bullets, stack
-  Cover.tsx      interactive dot-grid banner
+  HeroBackground.tsx the hero's swappable background (Beams today)
+  FerrofluidBand.tsx the animated band before the footer
+  Beams.tsx, Ferrofluid.tsx WebGL components from React Bits
   ThemeToggle.tsx light/dark switch
   Nav.tsx        hide-on-scroll nav with active-section underline
-  motion/        Providers (Lenis + MotionConfig), Reveal, Magnetic, CountUp, SpotlightCard
-  ui/            Section (+ hatched Gap), BulletList, Tags, TechChip, Mark, Icon, LocalTime, CopyEmail, ResumeLink
+  motion/        Providers (Lenis + MotionConfig), RevealSection, Magnetic, CountUp, SpotlightCard
+  ui/            Section (+ hatched Gap), BulletList, Tags, TechChip, Mark, Icon, LocalTime, CopyEmail, ExternalLink, ResumeLink
 data/site.ts     ⭐ all content, in story order
 lib/             résumé lookup, tech icons, date helpers, motion tokens, **emphasis** parser
-scripts/         audit-responsive.mjs
+scripts/         audit-responsive.mjs, check-webgl-cleanup.mjs
 _legacy/         old static template (git-ignored; delete when ready)
 ```
 
 ## Motion & accessibility
 
-- Lenis smooth scroll; anchor links glide with a nav offset.
+- Lenis smooth scroll; anchor links glide and stop at each target's `scroll-margin-top`.
 - `prefers-reduced-motion`: Lenis is disabled, Motion skips transforms, CSS animations stop.
 - Sections are server components; only interactive pieces ship JS.

@@ -6,7 +6,7 @@ import Section from "@/components/ui/Section";
 import { site } from "@/data/site";
 
 const button =
-  "inline-flex h-11 items-center gap-2 px-4 text-small font-semibold transition-colors";
+  "inline-flex h-11 items-center gap-2 px-4 text-small font-semibold transition active:scale-[0.98]";
 
 export default function Contact() {
   return (

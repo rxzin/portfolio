@@ -12,6 +12,8 @@ export interface Link {
 
 export interface Stat {
   value: number;
+  /** where the count starts, default 0 */
+  from?: number;
   /** digits after the decimal point when counting up */
   decimals?: number;
   prefix?: string;
@@ -57,13 +59,19 @@ export interface SkillGroup {
 
 export const site = {
   name: "Razin Chinwala",
-  role: "Full-stack AI engineer",
+  /** the name on certificates and other public records; structured data only, never shown */
+  alternateName: "Mohmmad Razin Chinwala",
+  /** the live domain: canonical URL, sitemap and structured data all come from this */
+  url: "https://rxzin.is-a.dev",
+  role: "Full-Stack Engineer",
+  /** the subheading under the name in the hero */
+  heroRole: "Full-Stack Engineer",
   company: "Code Colonies",
   location: "Ahmedabad, India",
   timezone: "Asia/Kolkata",
   email: "razin59185@gmail.com",
   description:
-    "Full-stack AI engineer building production TypeScript/Python backends and LLM agent systems: multi-tenant SaaS, AI sales automation, RAG, and durable workflows with PostgreSQL, Redis, and Docker.",
+    "Razin Chinwala is a full-stack engineer in Ahmedabad, India, building production TypeScript and Python apps: multi-tenant SaaS, AI agents, and RAG systems.",
 
   /** one line under the name */
   tagline:
@@ -88,7 +96,7 @@ export const site = {
   // ---- the story -------------------------------------------------------------
 
   about: [
-    "I'm Razin, a full-stack AI engineer in Ahmedabad. I studied computer science with a focus on AI and machine learning, and over the last few years I've moved from training models to **shipping the systems around them**.",
+    "I'm Razin Chinwala, a full-stack engineer in Ahmedabad who builds AI products. I studied computer science with a focus on AI and machine learning, and over the last few years I've moved from training models to **shipping the systems around them**.",
     "My first real ML work was at IBM SkillsBuild, where a disease-diagnosis model I built reached 86% accuracy and our team placed in the **top 6 of 650+** across India. At BISAG-N I worked with satellite imagery, comparing YOLO and U-Net for rooftop detection. U-Net won with an F1 score of 0.89.",
     "Today at Code Colonies I build the backend side of AI products: a multi-tenant WhatsApp automation SaaS, an autonomous sales agent, and the gateway that rate-limits and meters every LLM call. The part I enjoy most is making these systems **correct under failure**, so a crash never sends a message twice or spends the same budget again.",
   ],
@@ -105,7 +113,12 @@ export const site = {
       label:
         "routes moved off legacy Express in under a week, with zero regressions",
     },
-    { value: 6, prefix: "Top ", label: "of 650+ teams at IBM SkillsBuild" },
+    {
+      value: 6,
+      from: 650,
+      prefix: "Top ",
+      label: "of 650+ teams at IBM SkillsBuild",
+    },
     {
       value: 0.89,
       decimals: 2,
