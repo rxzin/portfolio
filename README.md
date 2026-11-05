@@ -39,6 +39,7 @@ Deploys to Vercel as-is.
 | Colors, fonts, type scale  | `app/globals.css` (design tokens)                 |
 | Animation easing/durations | `lib/motion.ts` (+ matching CSS vars)             |
 | Résumé                     | drop any PDF into `public/resume/` (see below)    |
+| Domain, name, SEO text     | `url`, `role`, `description` in `data/site.ts`    |
 
 ### Résumé
 
