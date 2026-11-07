@@ -236,7 +236,9 @@ export const site = {
         "Next.js",
         "FastAPI",
         "LangGraph",
+"Langfuse",
         "Mistral",
+"Neon",
         "Redis",
         "PostgreSQL",
         "Pinecone",
@@ -247,13 +249,15 @@ export const site = {
       summary:
         "A production-grade agentic chatbot that decides per message whether to answer directly or search the user's documents, the web, live weather, or file a bug report, then streams back an answer with inline citations. Piloted live with 8 users.",
       bullets: [
-        "**LangGraph tool-calling agent** on Mistral (ministral-14b, falling back to 8b before any text streams) with up to 4 tool rounds per message, live status steps, and three suggested follow-up questions. Replies stream as typed SSE events.",
+        "**LangGraph tool-calling agent** on Mistral (ministral-14b, falling back to 8b on errors) with up to 4 tool rounds per message, 20s per-tool timeouts with error recovery, live status steps, and three suggested follow-up questions. Replies stream as typed SSE events.",
         "Conversation-scoped **RAG**: background indexing of PDF and text uploads with mistral-embed into Pinecone, Cohere reranking, and **Exa web search**, all cited inline as numbered badges that preview the passage or page on hover.",
-        "Dual **Redis/PostgreSQL memory**: a 24-hour Redis working set rebuilt from Postgres when cold, a token budget estimated with tiktoken, and old turns folded into a rolling summary.",
-        "**Auth from scratch**: short-lived in-memory access tokens, rotating refresh tokens in HTTP-only cookies, instant revocation, permission-based admin roles, and rate-limited login and sign-up.",
+        "Dual **Redis Cloud/Neon PostgreSQL memory**: a 24-hour Redis working set rebuilt from Postgres when cold, a token budget estimated with tiktoken, and old turns folded into a rolling summary.",
+        
+"**Auth from scratch**: short-lived in-memory access tokens, rotating refresh tokens in HTTP-only cookies, instant revocation, permission-based admin roles, and rate-limited login and sign-up.",
         "Human-in-the-loop **chat → Jira** workflow: the model drafts bug reports from the conversation, an admin approves them, and the user gets an email. A failed approval rolls back so it can be retried.",
-        "**Admin dashboard** with tabs gated by fine-grained permissions: live cards for pending bugs, users, bans, active sessions, 24-hour requests and server errors; an audit log of every API request, filterable by user, path, method and status, with cursor pagination; and user search with per-device sessions you can revoke one at a time or all at once, plus confirmed ban and unban.",
-        "Daily quotas of 200 messages and 30 web searches per user, web results treated as untrusted input, and a single FastAPI app serving the Next.js static build, deployed to **FastAPI Cloud** by GitHub Actions.",
+        "**Admin dashboard** with tabs gated by fine-grained permissions: live cards for pending bugs, users, bans, active sessions, 24-hour requests and server errors; 90-day request audit log, filterable by user, path, method and status, with cursor pagination; user search with per-device sessions you can revoke one at a time or all at once, plus confirmed ban and unban; and a dedicated **Usage tab** showing
+            token volume, prompt/completion breakdown, top consumers, and purpose tags",
+        "Distributed tracing using Langfuse (turn sessions, model generations, token counts, tool observations), daily quotas of 200 messages and 30 web searches per user, web results treated as untrusted input, and a single FastAPI app serving the Next.js static build, deployed to **FastAPI Cloud** by GitHub Actions.",
       ],
     },
     {
@@ -295,7 +299,7 @@ export const site = {
       label: "AI and LLM",
       items: [
         "LangChain",
-        "LangGraph",
+        "LangGraph","Langfuse",
         "RAG",
         "AI Agents",
         "OpenAI",
