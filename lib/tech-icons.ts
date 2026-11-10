@@ -34,6 +34,7 @@ import {
   siNeon
 } from "simple-icons";
 import { awsIcon } from "./aws-icon";
+import { langfuseIcon, pineconeIcon } from "./extra-icons";
 
 // Brand icons from Simple Icons (CC0). Names without an official icon simply render as text.
 const byName: Record<string, Pick<SimpleIcon, "hex" | "path">> = {
@@ -54,6 +55,8 @@ const byName: Record<string, Pick<SimpleIcon, "hex" | "path">> = {
   "Next.js": siNextdotjs,
   LangChain: siLangchain,
   LangGraph: siLanggraph,
+  Langfuse: langfuseIcon,
+  Pinecone: pineconeIcon,
   Gemini: siGooglegemini,
   Mistral: siMistralai,
   "Hugging Face": siHuggingface,

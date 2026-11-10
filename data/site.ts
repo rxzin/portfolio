@@ -26,6 +26,16 @@ export interface Service {
   description: string;
 }
 
+export interface ProcessStep {
+  stage: string;
+  /** the skill that drives this stage */
+  skill: string;
+  /** what the skill forces me to do */
+  rule: string;
+  /** what comes out of this stage */
+  output: string;
+}
+
 export interface Role {
   id: string;
   kind: "work" | "internship";
@@ -93,6 +103,7 @@ export const site = {
 
   nav: [
     { label: "About", href: "#about" },
+    { label: "Process", href: "#process" },
     { label: "Experience", href: "#experience" },
     { label: "Projects", href: "#projects" },
     { label: "Stack", href: "#stack" },
@@ -154,6 +165,45 @@ export const site = {
         "Durable Temporal workflows, two-phase reservations with row locks, and crash-recovery reconciliation.",
     },
   ] satisfies Service[],
+
+  process: [
+    {
+      stage: "Scope",
+      skill: "grilling",
+      rule: "Question every decision in the plan until nothing is silently assumed.",
+      output: "Shared understanding",
+    },
+    {
+      stage: "Design",
+      skill: "system-design",
+      rule: "Every decision has trade-offs, so make them explicit.",
+      output: "Design with stated trade-offs",
+    },
+    {
+      stage: "Build",
+      skill: "test-driven-development",
+      rule: "Write the test first and watch it fail.",
+      output: "Minimal code that passes",
+    },
+    {
+      stage: "Diagnose",
+      skill: "house-style-diagnostics",
+      rule: "Treat the first explanation as a hypothesis, then rule out causes with evidence.",
+      output: "Root cause, not a patched symptom",
+    },
+    {
+      stage: "Verify",
+      skill: "verification-before-completion",
+      rule: "No claim that something works without fresh evidence.",
+      output: "Proof from a real run",
+    },
+    {
+      stage: "Ship",
+      skill: "deploy-checklist",
+      rule: "Write down the rollback triggers before deploying.",
+      output: "Monitored release",
+    },
+  ] satisfies ProcessStep[],
 
   experience: [
     {

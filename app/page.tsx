@@ -6,6 +6,7 @@ import Education from "@/components/sections/Education";
 import Experience from "@/components/sections/Experience";
 import Intro from "@/components/sections/Intro";
 import Numbers from "@/components/sections/Numbers";
+import Process from "@/components/sections/Process";
 import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
 import Stack from "@/components/sections/Stack";
@@ -48,12 +49,13 @@ export default function Home() {
       <Nav />
 
       <main>
-        {/* The story: who I am → my path → proof → what I build → where → how to reach me */}
+        {/* The story: who I am → my path → proof → what I build → how I work → where → how to reach me */}
         <Intro />
         <Column className="rule-t">
           <About />
           <Numbers />
           <Services />
+          <Process />
           <Experience
             id="experience"
             title="Experience"
