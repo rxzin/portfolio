@@ -10,6 +10,11 @@ export interface Link {
   href: string;
 }
 
+export interface PageLink extends Link {
+  /** the page's search description */
+  description: string;
+}
+
 export interface Stat {
   value: number;
   /** where the count starts, default 0 */
@@ -91,7 +96,7 @@ export const site = {
 
   /** one line under the name */
   tagline:
-    "I build backends and AI agents that keep working when things go wrong.",
+    "I work across frontend, backend, architecture, and infrastructure, with strong expertise in Node.js, TypeScript, Fastapi, React and modern AI tooling.",
 
   socials: [
     { label: "GitHub", href: "https://github.com/rxzin" },
@@ -101,14 +106,31 @@ export const site = {
     },
   ] satisfies Link[],
 
+  /** the small line above the name in the hero */
+  // TODO(razin): placeholder copy, write this in your own voice
+  heroGreeting: "Hi, my name is",
+
+  /** the pages after the home page: the nav links, the hero buttons (the first is the main one) and each page's title and search description */
+  // TODO(razin): placeholder labels and descriptions, rewrite as you like
   nav: [
-    { label: "About", href: "#about" },
-    { label: "Process", href: "#process" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "Stack", href: "#stack" },
-    { label: "Contact", href: "#contact" },
-  ] satisfies Link[],
+    {
+      label: "About",
+      href: "/about",
+      description:
+        "Who Razin Chinwala is: background, work experience, internships, tech stack and education.",
+    },
+    {
+      label: "Projects",
+      href: "/projects",
+      description:
+        "Projects Razin Chinwala has built, the services he offers and how he works.",
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+      description: "How to reach Razin Chinwala: email and résumé.",
+    },
+  ] satisfies PageLink[],
 
   // ---- the story -------------------------------------------------------------
 
