@@ -1,6 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  Instrument_Sans,
+  JetBrains_Mono,
+  Mukta,
+} from "next/font/google";
 import Providers from "@/components/motion/Providers";
+import Nav from "@/components/Nav";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -12,6 +18,18 @@ const sans = Instrument_Sans({
 const mono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+});
+
+// The hero's own pair (see Intro.tsx).
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+const mukta = Mukta({
+  variable: "--font-mukta",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 const title = `${site.name} | ${site.role}`;
@@ -110,7 +128,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     // suppressHydrationWarning: the theme script adds "dark" to this element before React hydrates
     <html
       lang="en"
-      className={`${sans.variable} ${mono.variable} antialiased`}
+      className={`${sans.variable} ${mono.variable} ${plexMono.variable} ${mukta.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -125,7 +143,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
-        <Providers>{children}</Providers>
+        <Providers>
+          <a
+            href="#content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-70 focus:bg-ink focus:px-4 focus:py-2 focus:text-panel"
+          >
+            Skip to content
+          </a>
+          <Nav />
+
+          <main id="content">{children}</main>
+        </Providers>
       </body>
     </html>
   );

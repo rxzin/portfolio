@@ -71,6 +71,9 @@
   /* text in Instrument Sans; dates, durations and data in JetBrains Mono */
   --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  /* the hero's own pair: IBM Plex Mono for the greeting, name and tagline; Mukta for the role and buttons */
+  --font-hero-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-hero-sans: var(--font-mukta), system-ui, sans-serif;
 
   --ease-out-expo: var(--ease-out-expo);
 
@@ -88,8 +91,6 @@
   --text-lead--line-height: 1.55;
   --text-h2: clamp(1.375rem, 3vw, 1.625rem);
   --text-h2--line-height: 1.25;
-  --text-h1: clamp(2.75rem, min(11vw, 26svh), 13rem);
-  --text-h1--line-height: 0.92;
   --text-stat: clamp(1.75rem, 5vw, 2.25rem);
   --text-stat--line-height: 1.1;
 }
@@ -130,18 +131,22 @@
   translate: -50% 0;
 }
 
-/* Sits behind the hero's text block and keeps it readable even over a full-white beam: strong behind
-   the small text, lighter behind the large name. Rises 6rem above the block, and fades out to the
-   right past 40rem, so phones get the full width and on desktop the rest of the background stays clear. */
+/* Sits behind the hero's text block and keeps it readable even over a full-white beam. It fades out
+   over the 6rem above and below the block, and to the right past 40rem, so phones get the full width
+   and on desktop the rest of the background stays clear. */
 @utility hero-scrim {
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    color-mix(in oklab, var(--bg) 60%, transparent) 6rem,
-    color-mix(in oklab, var(--bg) 85%, transparent) 60%
-  );
-  mask-image: linear-gradient(to right, black 40rem, transparent 62rem);
+  background: color-mix(in oklab, var(--bg) 80%, transparent);
+  mask-image:
+    linear-gradient(to right, black 40rem, transparent 62rem),
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 6rem,
+      black calc(100% - 6rem),
+      transparent
+    );
+  mask-composite: intersect;
 }
 
 /* Blueprint texture: diagonal hatching for the gaps between sections. */

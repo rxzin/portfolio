@@ -6,49 +6,16 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "motion/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NavMark } from "@/components/DotMarks";
 import ThemeToggle from "@/components/ThemeToggle";
 import { site } from "@/data/site";
 import { dur, ease, spring } from "@/lib/motion";
 
-/**
- * The furthest section down the page that has reached the top half of the screen.
- * Works from where sections are, not from one crossing a line, so a fast scroll can't skip a short one.
- */
-function useActiveSection(ids: string[]) {
-  const [active, setActive] = useState<string | null>(null);
-
-  useEffect(() => {
-    const inTopHalf = new Set<string>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) inTopHalf.add(e.target.id);
-          else inTopHalf.delete(e.target.id);
-        }
-        // none in view (a stretch without a nav link): keep the last one highlighted
-        const last = ids.filter((id) => inTopHalf.has(id)).at(-1);
-        if (last) setActive(last);
-      },
-      { rootMargin: "0px 0px -50% 0px" },
-    );
-    for (const id of ids) {
-      const el = document.getElementById(id);
-      if (el) io.observe(el);
-    }
-    return () => io.disconnect();
-  }, [ids]);
-
-  return active;
-}
-
-const ids = site.nav.map((l) => l.href.slice(1));
-// also watch the intro (#top, not in the nav) so no link stays highlighted after scrolling back up
-const watched = ["top", ...ids];
-
 export default function Nav() {
-  const active = useActiveSection(watched);
+  const pathname = usePathname();
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -65,13 +32,17 @@ export default function Nav() {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Over the hero the bar drops its grid lines and spans the screen, so the logo lines up with the name.
+  // Over the home page's hero the bar drops its grid lines and spans the screen, so the logo lines up with the name.
   const [overHero, setOverHero] = useState(true);
   const updateOverHero = useCallback((y: number) => {
     const hero = document.getElementById("top");
     setOverHero(!!hero && y < hero.offsetHeight - 56);
   }, []);
-  useEffect(() => updateOverHero(window.scrollY), [updateOverHero]);
+  // the nav stays mounted between pages, so check again on each one (only the home page has a hero)
+  useEffect(() => {
+    if (pathname === "/") updateOverHero(window.scrollY);
+    else setOverHero(false);
+  }, [pathname, updateOverHero]);
   const plain = overHero && !open;
   const idleLink = plain ? "text-ink" : "text-ink-muted";
 
@@ -106,18 +77,18 @@ export default function Nav() {
           className="flex h-14 items-center justify-between px-5 sm:px-6"
           aria-label="Primary"
         >
-          <a
-            href="#top"
+          <Link
+            href="/"
             className="flex items-center gap-2.5 py-2 text-small font-semibold"
           >
             <NavMark />
             {site.name}
-          </a>
+          </Link>
 
           <div className="flex items-center gap-1">
             <ul className="hidden items-center md:flex">
               {site.nav.map((l) => {
-                const isActive = active === l.href.slice(1);
+                const isActive = pathname === l.href;
                 return (
                   <li key={l.href} className="relative">
                     {isActive && (
@@ -127,9 +98,9 @@ export default function Nav() {
                         className="absolute inset-x-2.5 bottom-0.5 h-px bg-ink"
                       />
                     )}
-                    <a
+                    <Link
                       href={l.href}
-                      aria-current={isActive ? "true" : undefined}
+                      aria-current={isActive ? "page" : undefined}
                       className={`relative block px-2.5 py-2 text-small transition-colors ${
                         isActive
                           ? "text-ink"
@@ -137,7 +108,7 @@ export default function Nav() {
                       }`}
                     >
                       {l.label}
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
@@ -174,17 +145,17 @@ export default function Nav() {
               className="overflow-hidden border-t border-rule px-5 md:hidden"
             >
               {site.nav.map((l) => {
-                const isActive = active === l.href.slice(1);
+                const isActive = pathname === l.href;
                 return (
                   <li key={l.href}>
-                    <a
+                    <Link
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      aria-current={isActive ? "true" : undefined}
+                      aria-current={isActive ? "page" : undefined}
                       className={`block py-3 ${isActive ? "text-ink" : "text-ink-muted"}`}
                     >
                       {l.label}
-                    </a>
+                    </Link>
                   </li>
                 );
               })}

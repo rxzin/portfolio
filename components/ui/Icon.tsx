@@ -52,6 +52,7 @@ const paths = {
   check: <path d="M20 6 9 17l-5-5" />,
   arrowUpRight: <path d="M7 17 17 7M7 7h10v10" />,
   chevronDown: <path d="m6 9 6 6 6-6" />,
+  chevronRight: <path d="m9 6 6 6-6 6" />,
 };
 
 export type IconName = keyof typeof paths;

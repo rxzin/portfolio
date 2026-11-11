@@ -1,3 +1,4 @@
+import Link from "next/link";
 import HeroBackground from "@/components/HeroBackground";
 import CopyEmail from "@/components/ui/CopyEmail";
 import ExternalLink from "@/components/ui/ExternalLink";
@@ -30,7 +31,7 @@ function Fact({
   );
 }
 
-/** The first screen: the background, the name large on the left, and the facts in a slim strip along the bottom. */
+/** The home page: the background, the greeting, name, role, tagline and page buttons stacked on the left and centered vertically, and the facts in a slim strip along the bottom. */
 export default function Intro() {
   const github = site.socials.find((s) => s.label === "GitHub");
   const linkedin = site.socials.find((s) => s.label === "LinkedIn");
@@ -49,23 +50,45 @@ export default function Intro() {
       </div>
 
       <div
-        className={`relative flex flex-1 flex-col justify-end pb-8 pt-24 ${edge}`}
+        className={`relative flex flex-1 flex-col justify-center pb-12 pt-24 ${edge}`}
       >
+        {/* Type sizes, weights and line heights follow the reference hero: one set up to 980px, a larger one above. */}
         <div className="relative">
           {/* keeps the text readable over whichever background is in use */}
           <div
             aria-hidden
-            className="hero-scrim absolute -inset-x-[41px] -top-24 -bottom-8 -z-1"
+            className="hero-scrim absolute -inset-x-[41px] -inset-y-24 -z-1"
           />
-          <h1 className="text-h1 font-semibold uppercase tracking-[-0.03em]">
-            {site.name.split(" ").map((word) => (
-              <span key={word} className="block">
-                {word}{" "}
-              </span>
-            ))}
+          <p className="font-hero-mono text-[1.125rem] leading-7 font-semibold text-accent min-[981px]:text-[1.25rem] min-[981px]:leading-10">
+            {site.heroGreeting}
+          </p>
+          <h1 className="font-hero-mono py-2.5 text-[2.5rem] leading-none font-bold min-[981px]:text-[4.5rem]">
+            {site.name}
           </h1>
-          <p className="mt-4 text-lead text-ink-muted">{site.heroRole}</p>
-          <p className="mt-2 max-w-measure text-lead">{site.tagline}</p>
+          <p className="font-hero-sans mt-2 text-[1.25rem] leading-6 font-bold text-ink-muted min-[981px]:mt-4 min-[981px]:text-[3.75rem] min-[981px]:leading-16">
+            {site.heroRole}
+          </p>
+          <p className="font-hero-mono mt-6 max-w-[50rem] text-[1rem] leading-6 font-medium min-[981px]:text-[1.125rem] min-[981px]:leading-[1.5]">
+            {site.tagline}
+          </p>
+
+          <ul className="mt-6 flex flex-wrap gap-3">
+            {site.nav.map((page, i) => (
+              <li key={page.href}>
+                <Link
+                  href={page.href}
+                  className={`font-hero-sans inline-flex items-center gap-2 px-5 py-3 text-[1rem] leading-6 font-semibold transition active:scale-[0.98] min-[981px]:px-8 min-[981px]:py-4 min-[981px]:text-[1.25rem] min-[981px]:leading-4 ${
+                    i === 0
+                      ? "border border-ink bg-ink text-panel hover:border-accent hover:bg-accent"
+                      : "border border-ink hover:bg-ink hover:text-panel"
+                  }`}
+                >
+                  {page.label}
+                  {i === 0 && <Icon name="chevronRight" />}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
