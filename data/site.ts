@@ -389,7 +389,7 @@ export const site = {
           ["Chat turns (streamed)", "749", "940 ms"],
           ["Reads", "5,311", "626 ms"],
           ["Writes", "4,255", "116 ms"],
-          ["Logins (Argon2id)", "2,001", "69 ms"],
+          ["Logins", "2,001", "69 ms"],
         ],
         note: "Load-tested with k6 on one machine, with the model faked; no errors at any level. The API process's CPU is the bottleneck, so the next step is several instances behind a load balancer.",
       },
