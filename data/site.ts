@@ -57,6 +57,20 @@ export interface Role {
   bullets: string[];
 }
 
+export interface ProjectSection {
+  label: string;
+  bullets: string[];
+}
+
+export interface Benchmark {
+  /** the setup the numbers were measured on */
+  caption: string;
+  columns: string[];
+  rows: string[][];
+  /** how it was measured, shown under the table */
+  note: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -64,7 +78,12 @@ export interface Project {
   year: string;
   stack: string[];
   summary: string;
-  bullets: string[];
+  /** a flat list; ignored when `sections` is given */
+  bullets?: string[];
+  /** bullets grouped under headings, all shown */
+  sections?: ProjectSection[];
+  /** shown after the sections */
+  benchmark?: Benchmark;
   href?: string;
   preview?: {
     image: string;
@@ -331,29 +350,49 @@ export const site = {
         "Docker",
       ],
       summary:
-        "A production-grade agentic chatbot that decides per message whether to answer directly or search the user's documents, the web, live weather, or file a bug report, then streams back an answer with inline citations. Piloted live with 8 users.",
-      bullets: [
-        "**LangGraph tool-calling agent** on Mistral (ministral-14b, falling back to 8b on errors) with up to 4 tool rounds per message, 20s per-tool timeouts with error recovery, live status steps, and three suggested follow-up questions. Replies stream as typed SSE events.",
-        "Conversation-scoped **RAG**: background indexing of PDF and text uploads with mistral-embed into Pinecone, Cohere reranking, and **Exa web search**, all cited inline as numbered badges that preview the passage or page on hover.",
-        "Dual **Redis Cloud/Neon PostgreSQL memory**: a 24-hour Redis working set rebuilt from Postgres when cold, a token budget estimated with tiktoken, and old turns folded into a rolling summary.",
-
-        "**Auth from scratch**: short-lived in-memory access tokens, rotating refresh tokens in HTTP-only cookies, instant revocation, permission-based admin roles, and rate-limited login and sign-up.",
-        "Human-in-the-loop **chat → Jira** workflow: the model drafts bug reports from the conversation, an admin approves them, and the user gets an email. A failed approval rolls back so it can be retried.",
-        "**Admin dashboard** with tabs gated by fine-grained permissions: live cards for pending bugs, users, bans, active sessions, 24-hour requests and server errors; 90-day request audit log, filterable by user, path, method and status, with cursor pagination; user search with per-device sessions you can revoke one at a time or all at once, plus confirmed ban and unban; and a dedicated **Usage tab** showing token volume, prompt/completion breakdown, top consumers, and purpose tags.",
-        "Distributed tracing using Langfuse (turn sessions, model generations, token counts, tool observations), daily quotas of 200 messages and 30 web searches per user, web results treated as untrusted input, and a single FastAPI app serving the Next.js static build, deployed to **FastAPI Cloud** by GitHub Actions.",
+        "A production-grade agentic chatbot that decides per message whether to answer directly or search the user's documents, the web, live weather, or file a bug report, then streams back an answer with inline citations. Piloted live with 8 users, covered by 251 tests, and load-tested with k6.",
+      sections: [
+        {
+          label: "Agent & retrieval",
+          bullets: [
+            "**LangGraph tool-calling agent** on Mistral (ministral-14b, falling back to 8b on errors) with up to 4 tool rounds per message, 20s per-tool timeouts with error recovery, live status steps, and three suggested follow-up questions. Replies stream as typed SSE events.",
+            "Conversation-scoped **RAG**: background indexing of PDF and text uploads with mistral-embed into Pinecone, Cohere reranking, and **Exa web search**, all cited inline as numbered badges that preview the passage or page on hover.",
+          ],
+        },
+        {
+          label: "Memory & operations",
+          bullets: [
+            "Dual **Redis Cloud/Neon PostgreSQL memory**: a 24-hour Redis working set rebuilt from Postgres when cold, a token budget estimated with tiktoken, and old turns folded into a rolling summary.",
+            "Distributed tracing using Langfuse (turn sessions, model generations, token counts, tool observations), daily quotas of 200 messages and 30 web searches per user, web results treated as untrusted input, and a single FastAPI app serving the Next.js static build, deployed to **FastAPI Cloud** by GitHub Actions.",
+          ],
+        },
+        {
+          label: "Security & admin",
+          bullets: [
+            "**Auth from scratch**: Argon2id password hashing, short-lived in-memory access tokens, rotating refresh tokens in HTTP-only cookies, instant revocation, permission-based admin roles, and rate-limited login and sign-up.",
+            "Human-in-the-loop **chat → Jira** workflow: the model drafts bug reports from the conversation, an admin approves them, and the user gets an email. A failed approval rolls back so it can be retried.",
+            "**Admin dashboard** with tabs gated by fine-grained permissions: live cards for pending bugs, users, bans, active sessions, 24-hour requests and server errors; 90-day request audit log, filterable by user, path, method and status, with cursor pagination; user search with per-device sessions you can revoke one at a time or all at once, plus confirmed ban and unban; and a dedicated **Usage tab** showing token volume, prompt/completion breakdown, top consumers, and purpose tags.",
+          ],
+        },
+        {
+          label: "Reliability & testing",
+          bullets: [
+            "**251 tests at 83% coverage**, run against real PostgreSQL and Redis containers with a scripted fake model, so no test calls a paid API.",
+            "Concurrency tests found and fixed a **database-pool deadlock at 16+ simultaneous streams**, replies lost when the client disconnected at the last moment, and duplicate model runs on retry, now prevented with **idempotency keys**.",
+          ],
+        },
       ],
-    },
-    {
-      id: "sentiment-analysis",
-      title: "Sentiment Analysis of Movie Reviews",
-      kind: "NLP research",
-      year: "2024",
-      stack: ["Python", "PyTorch", "Transformers"],
-      summary:
-        "Fine-tuned transformer models for binary sentiment classification on the IMDB dataset.",
-      bullets: [
-        "Fine-tuned **BERT** and **RoBERTa** on IMDB, reaching 93.86% and 94.84% accuracy.",
-      ],
+      benchmark: {
+        caption: "Single API instance (1 vCPU) · single PostgreSQL node",
+        columns: ["Workload", "Peak req/min", "p95 at 50% load"],
+        rows: [
+          ["Chat turns (streamed)", "749", "940 ms"],
+          ["Reads", "5,311", "626 ms"],
+          ["Writes", "4,255", "116 ms"],
+          ["Logins (Argon2id)", "2,001", "69 ms"],
+        ],
+        note: "Load-tested with k6 on one machine, with the model faked; no errors at any level. The API process's CPU is the bottleneck, so the next step is several instances behind a load balancer.",
+      },
     },
   ] satisfies Project[],
 

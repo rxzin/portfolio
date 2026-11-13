@@ -8,7 +8,7 @@ import { rich } from "@/lib/rich";
 
 const VISIBLE = 3;
 
-function Bullet({ text }: { text: string }) {
+export function Bullet({ text }: { text: string }) {
   return (
     <li className="group flex gap-3 transition-colors duration-150 hover:text-ink">
       <span

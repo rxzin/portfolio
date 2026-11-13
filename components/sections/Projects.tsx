@@ -1,10 +1,11 @@
 import SpotlightCard from "@/components/motion/SpotlightCard";
 import BulletList from "@/components/ui/BulletList";
 import Icon from "@/components/ui/Icon";
+import ProjectDetails from "@/components/ui/ProjectDetails";
 import ProjectPreview from "@/components/ui/ProjectPreview";
 import Section from "@/components/ui/Section";
 import Tags from "@/components/ui/Tags";
-import { site } from "@/data/site";
+import { type Project, site } from "@/data/site";
 
 export default function Projects() {
   return (
@@ -14,7 +15,7 @@ export default function Projects() {
       aside={String(site.projects.length)}
       bodyClassName="divide-y divide-rule"
     >
-      {site.projects.map((p) => (
+      {site.projects.map((p: Project) => (
         <SpotlightCard
           as="article"
           key={p.id}
@@ -54,7 +55,11 @@ export default function Projects() {
               />
             </div>
           )}
-          <BulletList items={p.bullets} />
+          {p.sections ? (
+            <ProjectDetails sections={p.sections} benchmark={p.benchmark} />
+          ) : (
+            p.bullets && <BulletList items={p.bullets} />
+          )}
           <Tags items={p.stack} />
         </SpotlightCard>
       ))}
